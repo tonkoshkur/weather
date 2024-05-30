@@ -6,7 +6,9 @@ import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.web.servlet.JakartaServletWebApplication;
+import ua.tonkoshkur.weather.auth.AuthService;
 import ua.tonkoshkur.weather.common.factory.ComponentFactory;
+import ua.tonkoshkur.weather.session.SessionDao;
 
 @WebListener
 public class ServletContextListenerImpl implements ServletContextListener {
@@ -20,5 +22,7 @@ public class ServletContextListenerImpl implements ServletContextListener {
         ComponentFactory factory = new ComponentFactory(context);
         context.setAttribute(TemplateEngine.class.getSimpleName(), factory.getTemplateEngine());
         context.setAttribute(JakartaServletWebApplication.class.getSimpleName(), factory.getApplication());
+        context.setAttribute(AuthService.class.getSimpleName(), factory.getAuthService());
+        context.setAttribute(SessionDao.class.getSimpleName(), factory.getSessionDao());
     }
 }

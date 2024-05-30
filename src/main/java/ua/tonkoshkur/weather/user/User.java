@@ -2,12 +2,14 @@ package ua.tonkoshkur.weather.user;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Objects;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "Users")
 public class User {
@@ -21,6 +23,11 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+
+    public User(String login, String password) {
+        this.login = login;
+        this.password = password;
+    }
 
     @Override
     public boolean equals(Object o) {

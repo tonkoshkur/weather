@@ -2,6 +2,7 @@ package ua.tonkoshkur.weather.session;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
 import ua.tonkoshkur.weather.user.User;
@@ -11,6 +12,7 @@ import java.util.Objects;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "Sessions")
 public class Session {
@@ -25,6 +27,11 @@ public class Session {
 
     @Column(nullable = false)
     private LocalDateTime expiresAt;
+
+    public Session(User user, LocalDateTime expiresAt) {
+        this.user = user;
+        this.expiresAt = expiresAt;
+    }
 
     @Override
     public boolean equals(Object o) {

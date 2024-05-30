@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1" name="viewport">
@@ -12,8 +12,18 @@
 <body>
 
 <nav class="navbar navbar-light bg-light justify-content-center">
-    <a class="btn btn-primary me-2" href="signin">Sign in</a>
-    <a class="btn btn-primary" href="signup">Sign up</a>
+    <div class="d-flex " th:if="${user}">
+        <div th:text="${user.getLogin()}" class="me-2 mt-auto mb-auto"></div>
+        <form action="signout" method="post">
+            <input class="btn btn-primary"
+                   type="submit"
+                   value="Sign out">
+        </form>
+    </div>
+    <div th:unless="${user}">
+        <a class="btn btn-primary me-2" href="signin">Sign in</a>
+        <a class="btn btn-primary" href="signup">Sign up</a>
+    </div>
 </nav>
 
 <div class="d-flex justify-content-center mt-4">
