@@ -1,4 +1,4 @@
-package ua.tonkoshkur.weather.signup;
+package ua.tonkoshkur.weather.auth.signup;
 
 import lombok.RequiredArgsConstructor;
 import ua.tonkoshkur.weather.common.exception.BadRequestException;

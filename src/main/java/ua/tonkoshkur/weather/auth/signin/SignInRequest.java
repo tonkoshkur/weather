@@ -1,4 +1,4 @@
-package ua.tonkoshkur.weather.signin;
+package ua.tonkoshkur.weather.auth.signin;
 
 public record SignInRequest(String login, String password) {
     public SignInRequest() {

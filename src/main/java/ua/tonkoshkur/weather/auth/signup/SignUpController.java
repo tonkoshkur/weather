@@ -1,4 +1,4 @@
-package ua.tonkoshkur.weather.signup;
+package ua.tonkoshkur.weather.auth.signup;
 
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletContext;

@@ -1,4 +1,4 @@
-package ua.tonkoshkur.weather.signin;
+package ua.tonkoshkur.weather.auth.signin;
 
 import jakarta.servlet.http.HttpServletRequest;
 

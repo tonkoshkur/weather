@@ -1,4 +1,4 @@
-package ua.tonkoshkur.weather.signout;
+package ua.tonkoshkur.weather.auth.signout;
 
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletContext;
