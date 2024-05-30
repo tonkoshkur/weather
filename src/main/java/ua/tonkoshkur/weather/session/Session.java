@@ -3,11 +3,11 @@ package ua.tonkoshkur.weather.session;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.UuidGenerator;
 import ua.tonkoshkur.weather.user.User;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -16,8 +16,8 @@ import java.util.UUID;
 public class Session {
 
     @Id
-    @GeneratedValue
-    private UUID id;
+    @UuidGenerator
+    private String id;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
