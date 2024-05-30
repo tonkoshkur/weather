@@ -11,6 +11,7 @@ import org.thymeleaf.templateresolver.WebApplicationTemplateResolver;
 import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 import ua.tonkoshkur.weather.auth.AuthService;
 import ua.tonkoshkur.weather.location.Location;
+import ua.tonkoshkur.weather.session.OldSessionCleanupScheduler;
 import ua.tonkoshkur.weather.session.Session;
 import ua.tonkoshkur.weather.session.SessionDao;
 import ua.tonkoshkur.weather.user.User;
@@ -26,6 +27,7 @@ public class ComponentFactory {
     private final UserDao userDao;
     private final SessionDao sessionDao;
     private final AuthService authService;
+    private final OldSessionCleanupScheduler oldSessionCleanupScheduler;
 
     public ComponentFactory(ServletContext servletContext) {
         application = JakartaServletWebApplication.buildApplication(servletContext);
@@ -35,6 +37,7 @@ public class ComponentFactory {
         userDao = new UserDao(entityManagerFactory);
         sessionDao = new SessionDao(entityManagerFactory);
         authService = new AuthService(sessionDao, userDao);
+        oldSessionCleanupScheduler = new OldSessionCleanupScheduler(sessionDao);
     }
 
     private WebApplicationTemplateResolver buildTemplateResolver() {
