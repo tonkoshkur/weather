@@ -1,12 +1,19 @@
 package ua.tonkoshkur.weather.common.factory;
 
+import jakarta.persistence.EntityManagerFactory;
 import jakarta.servlet.ServletContext;
 import lombok.Getter;
+import org.hibernate.cfg.Configuration;
 import org.thymeleaf.ITemplateEngine;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.WebApplicationTemplateResolver;
 import org.thymeleaf.web.servlet.JakartaServletWebApplication;
+import ua.tonkoshkur.weather.location.Location;
+import ua.tonkoshkur.weather.session.Session;
+import ua.tonkoshkur.weather.session.SessionDao;
+import ua.tonkoshkur.weather.user.User;
+import ua.tonkoshkur.weather.user.UserDao;
 
 @Getter
 public class ComponentFactory {
@@ -14,11 +21,17 @@ public class ComponentFactory {
     private final JakartaServletWebApplication application;
     private final WebApplicationTemplateResolver templateResolver;
     private final ITemplateEngine templateEngine;
+    private final EntityManagerFactory entityManagerFactory;
+    private final UserDao userDao;
+    private final SessionDao sessionDao;
 
     public ComponentFactory(ServletContext servletContext) {
         application = JakartaServletWebApplication.buildApplication(servletContext);
         templateResolver = buildTemplateResolver();
         templateEngine = buildTemplateEngine();
+        entityManagerFactory = buildEntityManagerFactory();
+        userDao = new UserDao(entityManagerFactory);
+        sessionDao = new SessionDao(entityManagerFactory);
     }
 
     private WebApplicationTemplateResolver buildTemplateResolver() {
@@ -38,5 +51,13 @@ public class ComponentFactory {
         TemplateEngine engine = new TemplateEngine();
         engine.setTemplateResolver(templateResolver);
         return engine;
+    }
+
+    private EntityManagerFactory buildEntityManagerFactory() {
+        return new Configuration()
+                .addAnnotatedClass(Location.class)
+                .addAnnotatedClass(Session.class)
+                .addAnnotatedClass(User.class)
+                .buildSessionFactory();
     }
 }
