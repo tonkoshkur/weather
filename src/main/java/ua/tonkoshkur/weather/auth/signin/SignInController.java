@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.thymeleaf.context.WebContext;
 import ua.tonkoshkur.weather.auth.AuthService;
-import ua.tonkoshkur.weather.common.exception.UnauthorizedException;
+import ua.tonkoshkur.weather.common.exception.InvalidCredentialsException;
 import ua.tonkoshkur.weather.common.servlet.BaseServlet;
 import ua.tonkoshkur.weather.common.util.CookieHelper;
 import ua.tonkoshkur.weather.session.Session;
@@ -46,7 +46,7 @@ public class SignInController extends BaseServlet {
             Session session = authService.signIn(signInRequest.login(), signInRequest.password());
             CookieHelper.setSessionId(session, resp);
             resp.sendRedirect(req.getContextPath());
-        } catch (UnauthorizedException e) {
+        } catch (InvalidCredentialsException e) {
             handleUnauthorized(signInRequest, e.getMessage(), req, resp);
         }
     }

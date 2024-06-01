@@ -2,7 +2,7 @@ package ua.tonkoshkur.weather.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
-import ua.tonkoshkur.weather.common.exception.UnauthorizedException;
+import ua.tonkoshkur.weather.common.exception.InvalidCredentialsException;
 import ua.tonkoshkur.weather.common.exception.UserAlreadyExistsException;
 import ua.tonkoshkur.weather.session.Session;
 import ua.tonkoshkur.weather.session.SessionDao;
@@ -18,16 +18,16 @@ public class AuthService {
     private final SessionDao sessionDao;
     private final UserDao userDao;
 
-    public Session signIn(String login, String password) throws UnauthorizedException {
+    public Session signIn(String login, String password) throws InvalidCredentialsException {
         User user = userDao.findByLogin(login)
-                .orElseThrow(UnauthorizedException::new);
+                .orElseThrow(InvalidCredentialsException::new);
         throwIfWrongPassword(user, password);
         return createSessionForUser(user);
     }
 
-    private void throwIfWrongPassword(User user, String password) throws UnauthorizedException {
+    private void throwIfWrongPassword(User user, String password) throws InvalidCredentialsException {
         if (!BCrypt.checkpw(password, user.getPassword())) {
-            throw new UnauthorizedException();
+            throw new InvalidCredentialsException();
         }
     }
 
