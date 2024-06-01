@@ -40,7 +40,7 @@ public class SessionDao extends BaseDao {
         String sql = "delete from Session s where expiresAt < :dateTime";
         try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
             executeTransactional(entityManager, () ->
-                    entityManager.createQuery(sql, Session.class)
+                    entityManager.createQuery(sql)
                             .setParameter("dateTime", dateTime)
                             .executeUpdate());
         }
