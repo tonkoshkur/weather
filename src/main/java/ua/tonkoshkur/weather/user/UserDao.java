@@ -3,7 +3,7 @@ package ua.tonkoshkur.weather.user;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import lombok.RequiredArgsConstructor;
-import ua.tonkoshkur.weather.common.BaseDao;
+import ua.tonkoshkur.weather.common.dao.BaseDao;
 
 import java.util.Optional;
 

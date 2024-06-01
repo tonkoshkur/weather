@@ -4,7 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
-import ua.tonkoshkur.weather.common.BaseDao;
+import ua.tonkoshkur.weather.common.dao.BaseDao;
 
 import java.time.LocalDateTime;
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package ua.tonkoshkur.weather.common;
+package ua.tonkoshkur.weather.common.dao;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
