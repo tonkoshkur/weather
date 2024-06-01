@@ -10,14 +10,14 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class OldSessionCleanupScheduler {
 
-    private static final long PURGE_PERIOD_HOURS = 1;
+    private static final long PURGE_PERIOD_MINUTES = 60;
     private static final long INITIAL_DELAY = 0;
     private final SessionDao sessionDao;
     private ScheduledExecutorService executor;
 
     public void start() {
         executor = Executors.newSingleThreadScheduledExecutor();
-        executor.scheduleAtFixedRate(this::cleanup, INITIAL_DELAY, PURGE_PERIOD_HOURS, TimeUnit.HOURS);
+        executor.scheduleAtFixedRate(this::cleanup, INITIAL_DELAY, PURGE_PERIOD_MINUTES, TimeUnit.MINUTES);
     }
 
     private void cleanup() {
