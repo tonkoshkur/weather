@@ -2,6 +2,7 @@ package ua.tonkoshkur.weather.session;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
 import ua.tonkoshkur.weather.common.BaseDao;
 
@@ -39,10 +40,9 @@ public class SessionDao extends BaseDao {
     public void deleteByExpiresAtBefore(LocalDateTime dateTime) {
         String sql = "delete from Session s where expiresAt < :dateTime";
         try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
-            executeTransactional(entityManager, () ->
-                    entityManager.createQuery(sql)
-                            .setParameter("dateTime", dateTime)
-                            .executeUpdate());
+            Query query = entityManager.createQuery(sql)
+                    .setParameter("dateTime", dateTime);
+            executeTransactional(entityManager, query::executeUpdate);
         }
     }
 }
