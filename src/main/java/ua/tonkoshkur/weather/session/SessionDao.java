@@ -45,4 +45,12 @@ public class SessionDao extends BaseDao {
             executeTransactional(entityManager, query::executeUpdate);
         }
     }
+
+    public void deleteAll() {
+        String sql = "delete from Session";
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
+            Query query = entityManager.createQuery(sql);
+            executeTransactional(entityManager, query::executeUpdate);
+        }
+    }
 }
