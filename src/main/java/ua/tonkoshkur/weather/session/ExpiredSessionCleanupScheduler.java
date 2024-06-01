@@ -8,7 +8,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 @RequiredArgsConstructor
-public class OldSessionCleanupScheduler {
+public class ExpiredSessionCleanupScheduler {
 
     private static final long PURGE_PERIOD_MINUTES = 60;
     private static final long INITIAL_DELAY = 0;

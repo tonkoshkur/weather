@@ -5,7 +5,7 @@ import lombok.Getter;
 import org.hibernate.cfg.Configuration;
 import ua.tonkoshkur.weather.auth.AuthService;
 import ua.tonkoshkur.weather.location.Location;
-import ua.tonkoshkur.weather.session.OldSessionCleanupScheduler;
+import ua.tonkoshkur.weather.session.ExpiredSessionCleanupScheduler;
 import ua.tonkoshkur.weather.session.Session;
 import ua.tonkoshkur.weather.session.SessionDao;
 import ua.tonkoshkur.weather.user.User;
@@ -18,14 +18,14 @@ public class ComponentFactory {
     private final UserDao userDao;
     private final SessionDao sessionDao;
     private final AuthService authService;
-    private final OldSessionCleanupScheduler oldSessionCleanupScheduler;
+    private final ExpiredSessionCleanupScheduler expiredSessionCleanupScheduler;
 
     public ComponentFactory() {
         entityManagerFactory = buildEntityManagerFactory();
         userDao = new UserDao(entityManagerFactory);
         sessionDao = new SessionDao(entityManagerFactory);
         authService = new AuthService(sessionDao, userDao);
-        oldSessionCleanupScheduler = new OldSessionCleanupScheduler(sessionDao);
+        expiredSessionCleanupScheduler = new ExpiredSessionCleanupScheduler(sessionDao);
     }
 
     private EntityManagerFactory buildEntityManagerFactory() {

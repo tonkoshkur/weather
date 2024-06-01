@@ -9,20 +9,20 @@ import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 import ua.tonkoshkur.weather.auth.AuthService;
 import ua.tonkoshkur.weather.common.factory.ComponentFactory;
 import ua.tonkoshkur.weather.common.factory.ThymeleafFactory;
-import ua.tonkoshkur.weather.session.OldSessionCleanupScheduler;
+import ua.tonkoshkur.weather.session.ExpiredSessionCleanupScheduler;
 import ua.tonkoshkur.weather.session.SessionDao;
 
 @WebListener
 public class ServletContextListenerImpl implements ServletContextListener {
 
-    private OldSessionCleanupScheduler oldSessionCleanupScheduler;
+    private ExpiredSessionCleanupScheduler expiredSessionCleanupScheduler;
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         ServletContext context = sce.getServletContext();
         initThymeleaf(context);
         initComponents(context);
-        startOldSessionCleanupScheduler(context);
+        startExpiredSessionCleanupScheduler(context);
     }
 
     private void initThymeleaf(ServletContext context) {
@@ -35,17 +35,17 @@ public class ServletContextListenerImpl implements ServletContextListener {
         ComponentFactory factory = new ComponentFactory();
         context.setAttribute(AuthService.class.getSimpleName(), factory.getAuthService());
         context.setAttribute(SessionDao.class.getSimpleName(), factory.getSessionDao());
-        context.setAttribute(OldSessionCleanupScheduler.class.getSimpleName(), factory.getOldSessionCleanupScheduler());
+        context.setAttribute(ExpiredSessionCleanupScheduler.class.getSimpleName(), factory.getExpiredSessionCleanupScheduler());
     }
 
-    private void startOldSessionCleanupScheduler(ServletContext context) {
-        String schedulerAttributeName = OldSessionCleanupScheduler.class.getSimpleName();
-        oldSessionCleanupScheduler = (OldSessionCleanupScheduler) context.getAttribute(schedulerAttributeName);
-        oldSessionCleanupScheduler.start();
+    private void startExpiredSessionCleanupScheduler(ServletContext context) {
+        String schedulerAttributeName = ExpiredSessionCleanupScheduler.class.getSimpleName();
+        expiredSessionCleanupScheduler = (ExpiredSessionCleanupScheduler) context.getAttribute(schedulerAttributeName);
+        expiredSessionCleanupScheduler.start();
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        oldSessionCleanupScheduler.stop();
+        expiredSessionCleanupScheduler.stop();
     }
 }
