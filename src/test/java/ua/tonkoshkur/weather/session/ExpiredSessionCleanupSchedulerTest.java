@@ -15,7 +15,7 @@ import static org.awaitility.Awaitility.await;
 
 class ExpiredSessionCleanupSchedulerTest {
 
-    private static long sessionExpirationMinutes;
+    private static long sessionTtlMinutes;
     private static long expiredSessionsCleanupMinutes;
     private static SessionDao sessionDao;
     private static AuthService authService;
@@ -25,7 +25,7 @@ class ExpiredSessionCleanupSchedulerTest {
     @BeforeAll
     static void setUp() {
         AppProperties appProperties = new AppProperties();
-        sessionExpirationMinutes = appProperties.getSessionExpirationMinutes();
+        sessionTtlMinutes = appProperties.getSessionTtlMinutes();
         expiredSessionsCleanupMinutes = appProperties.getExpiredSessionsCleanupMinutes();
         ComponentFactory componentFactory = new ComponentFactory(appProperties);
         sessionDao = componentFactory.getSessionDao();
@@ -49,7 +49,7 @@ class ExpiredSessionCleanupSchedulerTest {
         Duration timeout = Duration.ofMinutes(expiredSessionsCleanupMinutes)
                 .plusSeconds(1);
         await().atMost(timeout)
-                .pollDelay(sessionExpirationMinutes, TimeUnit.MINUTES)
+                .pollDelay(sessionTtlMinutes, TimeUnit.MINUTES)
                 .until(() -> sessionDao.findById(activeSession.getId()).isEmpty());
     }
 }

@@ -10,7 +10,7 @@ import java.util.Properties;
 @Getter
 public class AppProperties {
 
-    private final long sessionExpirationMinutes;
+    private final long sessionTtlMinutes;
     private final long expiredSessionsCleanupMinutes;
     private final String openWeatherApiKey;
 
@@ -18,7 +18,7 @@ public class AppProperties {
         try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("app.properties")) {
             Properties props = new Properties();
             props.load(inputStream);
-            sessionExpirationMinutes = Long.parseLong(props.getProperty("session.expiration.minutes"));
+            sessionTtlMinutes = Long.parseLong(props.getProperty("session.ttl.minutes"));
             expiredSessionsCleanupMinutes = Long.parseLong(props.getProperty("session.expired.cleanup.minutes"));
             openWeatherApiKey = props.getProperty("api.openweather.key");
         } catch (IOException | IllegalArgumentException e) {

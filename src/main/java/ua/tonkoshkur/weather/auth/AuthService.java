@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final long sessionExpirationMinutes;
+    private final long sessionTtlMinutes;
     private final SessionDao sessionDao;
     private final UserDao userDao;
 
@@ -50,7 +50,7 @@ public class AuthService {
     }
 
     private Session createSessionForUser(User user) {
-        LocalDateTime expiresAt = LocalDateTime.now().plusMinutes(sessionExpirationMinutes);
+        LocalDateTime expiresAt = LocalDateTime.now().plusMinutes(sessionTtlMinutes);
         Session session = new Session(user, expiresAt);
         return sessionDao.save(session);
     }

@@ -25,13 +25,13 @@ public class ComponentFactory {
     private final ExpiredSessionCleanupScheduler expiredSessionCleanupScheduler;
 
     public ComponentFactory(AppProperties appProperties) {
-        long sessionExpirationMinutes = appProperties.getSessionExpirationMinutes();
+        long sessionTtlMinutes = appProperties.getSessionTtlMinutes();
         long expiredSessionsCleanupMinutes = appProperties.getExpiredSessionsCleanupMinutes();
 
         entityManagerFactory = buildEntityManagerFactory();
         userDao = new UserDao(entityManagerFactory);
         sessionDao = new SessionDao(entityManagerFactory);
-        authService = new AuthService(sessionExpirationMinutes, sessionDao, userDao);
+        authService = new AuthService(sessionTtlMinutes, sessionDao, userDao);
         weatherApi = new OpenWeatherApi(appProperties.getOpenWeatherApiKey());
         expiredSessionCleanupScheduler = new ExpiredSessionCleanupScheduler(expiredSessionsCleanupMinutes, sessionDao);
     }
