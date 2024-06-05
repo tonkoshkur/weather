@@ -21,8 +21,8 @@
                    value="Sign out">
         </form>
     </div>
-    <div th:unless="${user}">
-        <a class="btn btn-primary me-2" href="signin">Sign in</a>
+    <div class="d-flex gap-2" th:unless="${user}">
+        <a class="btn btn-primary" href="signin">Sign in</a>
         <a class="btn btn-primary" href="signup">Sign up</a>
     </div>
 </nav>

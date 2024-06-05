@@ -12,16 +12,16 @@
 <body>
 
 <nav class="navbar navbar-light bg-light justify-content-center">
-    <div class="d-flex " th:if="${user}">
-        <div th:text="${user.getLogin()}" class="me-2 mt-auto mb-auto"></div>
+    <div class="d-flex" th:if="${user}">
+        <div class="me-4 mt-auto mb-auto" th:text="${user.getLogin()}"></div>
         <form action="signout" method="post">
             <input class="btn btn-primary"
                    type="submit"
                    value="Sign out">
         </form>
     </div>
-    <div th:unless="${user}">
-        <a class="btn btn-primary me-2" href="signin">Sign in</a>
+    <div class="d-flex gap-2" th:unless="${user}">
+        <a class="btn btn-primary" href="signin">Sign in</a>
         <a class="btn btn-primary" href="signup">Sign up</a>
     </div>
 </nav>
