@@ -6,6 +6,7 @@ import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.web.servlet.JakartaServletWebApplication;
+import ua.tonkoshkur.weather.api.WeatherApi;
 import ua.tonkoshkur.weather.auth.AuthService;
 import ua.tonkoshkur.weather.common.factory.ComponentFactory;
 import ua.tonkoshkur.weather.common.factory.ThymeleafFactory;
@@ -38,6 +39,7 @@ public class ServletContextListenerImpl implements ServletContextListener {
         context.setAttribute(AuthService.class.getSimpleName(), factory.getAuthService());
         context.setAttribute(SessionDao.class.getSimpleName(), factory.getSessionDao());
         context.setAttribute(ExpiredSessionCleanupScheduler.class.getSimpleName(), factory.getExpiredSessionCleanupScheduler());
+        context.setAttribute(WeatherApi.class.getSimpleName(), factory.getWeatherApi());
     }
 
     private void startExpiredSessionCleanupScheduler(ServletContext context) {

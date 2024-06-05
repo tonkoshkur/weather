@@ -27,11 +27,14 @@
 </nav>
 
 <div class="d-flex justify-content-center mt-4">
-    <form class="d-flex">
+    <form action="search" class="d-flex">
         <input aria-label="Search"
                class="form-control me-2"
+               id="search"
+               minlength="3"
+               name="search"
                placeholder="Search"
-               type="search">
+               type="text">
         <input class="btn btn-outline-primary"
                type="submit"
                value="Search">

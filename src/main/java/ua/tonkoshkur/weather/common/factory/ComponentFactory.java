@@ -3,6 +3,8 @@ package ua.tonkoshkur.weather.common.factory;
 import jakarta.persistence.EntityManagerFactory;
 import lombok.Getter;
 import org.hibernate.cfg.Configuration;
+import ua.tonkoshkur.weather.api.WeatherApi;
+import ua.tonkoshkur.weather.api.openweather.OpenWeatherApi;
 import ua.tonkoshkur.weather.auth.AuthService;
 import ua.tonkoshkur.weather.common.util.AppProperties;
 import ua.tonkoshkur.weather.location.Location;
@@ -19,6 +21,7 @@ public class ComponentFactory {
     private final UserDao userDao;
     private final SessionDao sessionDao;
     private final AuthService authService;
+    private final WeatherApi weatherApi;
     private final ExpiredSessionCleanupScheduler expiredSessionCleanupScheduler;
 
     public ComponentFactory(AppProperties appProperties) {
@@ -29,6 +32,7 @@ public class ComponentFactory {
         userDao = new UserDao(entityManagerFactory);
         sessionDao = new SessionDao(entityManagerFactory);
         authService = new AuthService(sessionExpirationMinutes, sessionDao, userDao);
+        weatherApi = new OpenWeatherApi(appProperties.getOpenWeatherApiKey());
         expiredSessionCleanupScheduler = new ExpiredSessionCleanupScheduler(expiredSessionsCleanupMinutes, sessionDao);
     }
 

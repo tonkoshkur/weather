@@ -12,6 +12,7 @@ public class AppProperties {
 
     private final long sessionExpirationMinutes;
     private final long expiredSessionsCleanupMinutes;
+    private final String openWeatherApiKey;
 
     public AppProperties() {
         try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("app.properties")) {
@@ -19,6 +20,7 @@ public class AppProperties {
             props.load(inputStream);
             sessionExpirationMinutes = Long.parseLong(props.getProperty("session.expiration.minutes"));
             expiredSessionsCleanupMinutes = Long.parseLong(props.getProperty("session.expired.cleanup.minutes"));
+            openWeatherApiKey = props.getProperty("api.openweather.key");
         } catch (IOException | IllegalArgumentException e) {
             throw new LoadAppPropertiesException(e);
         }
