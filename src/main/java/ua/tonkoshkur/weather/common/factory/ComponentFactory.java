@@ -6,7 +6,7 @@ import org.hibernate.cfg.Configuration;
 import ua.tonkoshkur.weather.api.WeatherApi;
 import ua.tonkoshkur.weather.api.openweather.OpenWeatherApi;
 import ua.tonkoshkur.weather.auth.AuthService;
-import ua.tonkoshkur.weather.common.util.AppProperties;
+import ua.tonkoshkur.weather.common.properties.AppProperties;
 import ua.tonkoshkur.weather.location.Location;
 import ua.tonkoshkur.weather.session.ExpiredSessionCleanupScheduler;
 import ua.tonkoshkur.weather.session.Session;

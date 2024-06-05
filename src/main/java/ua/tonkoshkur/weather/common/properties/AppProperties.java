@@ -1,4 +1,4 @@
-package ua.tonkoshkur.weather.common.util;
+package ua.tonkoshkur.weather.common.properties;
 
 import lombok.Getter;
 import ua.tonkoshkur.weather.common.exception.LoadAppPropertiesException;

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import ua.tonkoshkur.weather.common.exception.InvalidCredentialsException;
 import ua.tonkoshkur.weather.common.exception.UserAlreadyExistsException;
 import ua.tonkoshkur.weather.common.factory.ComponentFactory;
-import ua.tonkoshkur.weather.common.util.AppProperties;
+import ua.tonkoshkur.weather.common.properties.AppProperties;
 import ua.tonkoshkur.weather.session.Session;
 import ua.tonkoshkur.weather.session.SessionDao;
 import ua.tonkoshkur.weather.user.User;

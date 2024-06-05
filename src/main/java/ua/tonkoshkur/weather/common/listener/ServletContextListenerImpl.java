@@ -10,7 +10,7 @@ import ua.tonkoshkur.weather.api.WeatherApi;
 import ua.tonkoshkur.weather.auth.AuthService;
 import ua.tonkoshkur.weather.common.factory.ComponentFactory;
 import ua.tonkoshkur.weather.common.factory.ThymeleafFactory;
-import ua.tonkoshkur.weather.common.util.AppProperties;
+import ua.tonkoshkur.weather.common.properties.AppProperties;
 import ua.tonkoshkur.weather.session.ExpiredSessionCleanupScheduler;
 import ua.tonkoshkur.weather.session.SessionDao;
 

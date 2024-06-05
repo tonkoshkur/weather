@@ -6,7 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ua.tonkoshkur.weather.auth.AuthService;
 import ua.tonkoshkur.weather.common.factory.ComponentFactory;
-import ua.tonkoshkur.weather.common.util.AppProperties;
+import ua.tonkoshkur.weather.common.properties.AppProperties;
 
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
