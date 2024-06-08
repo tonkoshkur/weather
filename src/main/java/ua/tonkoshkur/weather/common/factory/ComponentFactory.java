@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManagerFactory;
 import lombok.Getter;
 import org.hibernate.cfg.Configuration;
 import ua.tonkoshkur.weather.api.WeatherApi;
+import ua.tonkoshkur.weather.api.WeatherHttpClient;
 import ua.tonkoshkur.weather.api.openweather.OpenWeatherApi;
 import ua.tonkoshkur.weather.auth.AuthService;
 import ua.tonkoshkur.weather.common.properties.AppProperties;
@@ -32,7 +33,7 @@ public class ComponentFactory {
         userDao = new UserDao(entityManagerFactory);
         sessionDao = new SessionDao(entityManagerFactory);
         authService = new AuthService(sessionTtlMinutes, sessionDao, userDao);
-        weatherApi = new OpenWeatherApi(appProperties.getOpenWeatherApiKey());
+        weatherApi = new OpenWeatherApi(new WeatherHttpClient(), appProperties.getOpenWeatherApiKey());
         expiredSessionCleanupScheduler = new ExpiredSessionCleanupScheduler(expiredSessionsCleanupMinutes, sessionDao);
     }
 

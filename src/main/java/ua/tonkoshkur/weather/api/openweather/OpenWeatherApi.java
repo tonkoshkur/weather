@@ -25,9 +25,9 @@ public class OpenWeatherApi implements WeatherApi {
     private static final String LIMIT_PARAM = "limit";
     private static final int MAX_LOCATIONS_LIMIT = 5;
 
-    private final WeatherHttpClient httpClient = new WeatherHttpClient();
     private final WeatherMapper weatherMapper = new WeatherMapper(ICON_URL_FORMAT);
     private final WeatherJsonMapper jsonMapper = new WeatherJsonMapper();
+    private final WeatherHttpClient httpClient;
     private final String apiKey;
 
     public List<WeatherDto> findAllByCity(String city) throws WeatherApiException {
