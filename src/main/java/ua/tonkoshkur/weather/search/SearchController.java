@@ -37,24 +37,20 @@ public class SearchController extends BaseServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         WebContext context = buildWebContext(req, resp);
 
-        setUserContext(req, context);
-        handleSearchRequest(req, context);
+        User user = (User) req.getSession().getAttribute(USER_VARIABLE);
+        context.setVariable(USER_VARIABLE, user);
+
+        String search = req.getParameter(SEARCH_VARIABLE);
+        context.setVariable(SEARCH_VARIABLE, search);
+
+        if (isSearchValid(search)) {
+            handleSearch(search, context);
+        }
 
         templateEngine.process(SEARCH_PAGE, context, resp.getWriter());
     }
 
-    private void setUserContext(HttpServletRequest req, WebContext context) {
-        User user = (User) req.getSession().getAttribute(USER_VARIABLE);
-        context.setVariable(USER_VARIABLE, user);
-    }
-
-    private void handleSearchRequest(HttpServletRequest req, WebContext context) {
-        String search = req.getParameter(SEARCH_VARIABLE);
-        context.setVariable(SEARCH_VARIABLE, search);
-
-        if (!isSearchValid(search)) {
-            return;
-        }
+    private void handleSearch(String search, WebContext context) {
         try {
             List<WeatherDto> weather = weatherApi.findAllByCity(search);
             context.setVariable(WEATHER_VARIABLE, weather);
