@@ -1,15 +1,11 @@
 package ua.tonkoshkur.weather.api.openweather;
 
 import lombok.RequiredArgsConstructor;
-import ua.tonkoshkur.weather.api.WeatherApi;
-import ua.tonkoshkur.weather.api.WeatherApiException;
-import ua.tonkoshkur.weather.api.WeatherDto;
-import ua.tonkoshkur.weather.api.WeatherHttpClient;
+import ua.tonkoshkur.weather.api.*;
 import ua.tonkoshkur.weather.api.openweather.dto.geo.GeoResponse;
 import ua.tonkoshkur.weather.api.openweather.dto.weather.WeatherResponse;
 import ua.tonkoshkur.weather.common.util.UrlBuilder;
 
-import java.util.Arrays;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -31,6 +27,7 @@ public class OpenWeatherApi implements WeatherApi {
 
     private final WeatherHttpClient httpClient = new WeatherHttpClient();
     private final WeatherMapper weatherMapper = new WeatherMapper(ICON_URL_FORMAT);
+    private final WeatherJsonMapper jsonMapper = new WeatherJsonMapper();
     private final String apiKey;
 
     public List<WeatherDto> findAllByCity(String city) throws WeatherApiException {
@@ -46,8 +43,8 @@ public class OpenWeatherApi implements WeatherApi {
                 .addParam(LIMIT_PARAM, MAX_LOCATIONS_LIMIT)
                 .addParam(APPID_PARAM, apiKey)
                 .build();
-        GeoResponse[] geoResponses = httpClient.sendRequest(url, GeoResponse[].class);
-        return Arrays.asList(geoResponses);
+        String json = httpClient.sendRequest(url);
+        return jsonMapper.mapList(json, GeoResponse.class);
     }
 
     private WeatherResponse findByCity(String city) throws WeatherApiException {
@@ -56,6 +53,7 @@ public class OpenWeatherApi implements WeatherApi {
                 .addParam(UNITS_PARAM, DEFAULT_MEASUREMENT_UNIT)
                 .addParam(APPID_PARAM, apiKey)
                 .build();
-        return httpClient.sendRequest(url, WeatherResponse.class);
+        String json = httpClient.sendRequest(url);
+        return jsonMapper.map(json, WeatherResponse.class);
     }
 }
