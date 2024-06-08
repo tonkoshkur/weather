@@ -56,7 +56,10 @@ public class SearchController extends BaseServlet {
     private void handleSearch(String search, WebContext context) {
         try {
             List<WeatherDto> weather = weatherApi.findAllByCity(search);
-            context.setVariable(WEATHER_VARIABLE, weather);
+            if (!weather.isEmpty()) {
+                context.setVariable(WEATHER_VARIABLE, weather);
+                return;
+            }
         } catch (WeatherApiException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
         }
