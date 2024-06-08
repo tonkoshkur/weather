@@ -31,10 +31,12 @@ public class WeatherHttpClient {
         URI uri = URI.create(url);
         HttpRequest request = HttpRequest.newBuilder(uri).build();
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        String body = response.body();
 
         if (response.statusCode() != SC_OK) {
-            throw new WeatherApiException();
+            String errorMessage = String.format("Unsuccessful response. Url: %s. Body: %s", url, body);
+            throw new WeatherApiException(errorMessage);
         }
-        return response.body();
+        return body;
     }
 }

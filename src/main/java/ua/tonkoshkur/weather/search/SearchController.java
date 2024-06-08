@@ -15,10 +15,13 @@ import ua.tonkoshkur.weather.user.User;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @WebServlet("/search")
 public class SearchController extends BaseServlet {
 
+    private static final Logger LOGGER = Logger.getLogger(SearchController.class.getSimpleName());
     private static final String USER_VARIABLE = "user";
     private static final String SEARCH_VARIABLE = "search";
     private static final String WEATHER_VARIABLE = "weather";
@@ -55,8 +58,9 @@ public class SearchController extends BaseServlet {
             List<WeatherDto> weather = weatherApi.findAllByCity(search);
             context.setVariable(WEATHER_VARIABLE, weather);
         } catch (WeatherApiException ex) {
-            context.setVariable(ERROR_VARIABLE, ex.getMessage());
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
         }
+        context.setVariable(ERROR_VARIABLE, "Unable to find weather");
     }
 
     private boolean isSearchValid(String search) {
