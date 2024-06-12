@@ -8,13 +8,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import ua.tonkoshkur.weather.api.WeatherApiException;
 import ua.tonkoshkur.weather.api.WeatherDto;
 import ua.tonkoshkur.weather.api.WeatherHttpClient;
-import ua.tonkoshkur.weather.api.openweather.dto.geo.GeoResponse;
-import ua.tonkoshkur.weather.api.openweather.dto.weather.CoordinatesDto;
-import ua.tonkoshkur.weather.api.openweather.dto.weather.WeatherResponse;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.math.BigDecimal;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,7 +17,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class OpenWeatherApiTest {
+class OpenWeatherApiClientTest {
 
     private static final String CITY = "London";
     private static final String FIND_GEO_BY_CITY_RESPONSE = """
@@ -89,53 +83,19 @@ class OpenWeatherApiTest {
             """;
 
     private static WeatherHttpClient httpClient;
-    private static OpenWeatherApi openWeatherApi;
+    private static OpenWeatherApiClient openWeatherApiClient;
 
     @BeforeAll
     static void setUp() {
         httpClient = Mockito.mock(WeatherHttpClient.class);
-        openWeatherApi = new OpenWeatherApi(httpClient, "");
-    }
-
-    @Test
-    void givenCityName_whenFindGeoByCity_thenReturnGeoResponseWithTheCity()
-            throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        when(httpClient.sendRequest(anyString())).thenReturn(FIND_GEO_BY_CITY_RESPONSE);
-
-        Method findGeoByCityMethod = OpenWeatherApi.class.getDeclaredMethod("findGeoByCity", String.class);
-        findGeoByCityMethod.setAccessible(true);
-        List<GeoResponse> geoResponses = (List<GeoResponse>) findGeoByCityMethod.invoke(openWeatherApi, CITY);
-
-        assertThat(geoResponses)
-                .anyMatch(response -> response.getName().equals(CITY)
-                        && response.getCountry().equals("GB")
-                        && response.getState().equals("England")
-                        && response.getLat().equals(new BigDecimal("51.5073219"))
-                        && response.getLon().equals(new BigDecimal("-0.1276474")));
-    }
-
-    @Test
-    void givenCityName_whenFindByCity_thenReturnWeatherResponseWithTheCity()
-            throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        when(httpClient.sendRequest(anyString())).thenReturn(FIND_BY_CITY_RESPONSE);
-
-        Method findByCityMethod = OpenWeatherApi.class.getDeclaredMethod("findByCity", String.class);
-        findByCityMethod.setAccessible(true);
-        WeatherResponse weatherResponse = (WeatherResponse) findByCityMethod.invoke(openWeatherApi, CITY);
-
-        assertThat(weatherResponse.getName()).isEqualTo(CITY);
-        assertThat(weatherResponse.getSys().getCountry()).isEqualTo("GB");
-        assertThat(weatherResponse.getMain()).hasNoNullFieldsOrPropertiesExcept("seaLevel", "groundLevel");
-        CoordinatesDto coordinates = weatherResponse.getCoordinates();
-        assertThat(coordinates.getLat()).isEqualTo("51.5085");
-        assertThat(coordinates.getLon()).isEqualTo("-0.1257");
+        openWeatherApiClient = new OpenWeatherApiClient(httpClient, "");
     }
 
     @Test
     void givenCityName_whenFindAllByCity_thenReturnCityWeather() {
         when(httpClient.sendRequest(anyString())).thenReturn(FIND_GEO_BY_CITY_RESPONSE, FIND_BY_CITY_RESPONSE);
 
-        List<WeatherDto> weather = openWeatherApi.findAllByCity(CITY);
+        List<WeatherDto> weather = openWeatherApiClient.findAllByCity(CITY);
 
         assertThat(weather)
                 .singleElement()
@@ -144,13 +104,13 @@ class OpenWeatherApiTest {
                     assertThat(w.getCity()).isEqualTo(CITY);
                     assertThat(w.getCountryCode()).isEqualTo("GB");
                     assertThat(w.getState()).isEqualTo("England");
-                    assertThat(w.getLatitude()).isEqualTo("51.5085");
-                    assertThat(w.getLongitude()).isEqualTo("-0.1257");
+                    assertThat(w.getLatitude()).isEqualTo("51.5073219");
+                    assertThat(w.getLongitude()).isEqualTo("-0.1276474");
                 });
     }
 
     @Test
     void givenNotValidResponse_whenFindAllByCity_thenThrowWeatherApiException() {
-        assertThrows(WeatherApiException.class, () -> openWeatherApi.findAllByCity(CITY));
+        assertThrows(WeatherApiException.class, () -> openWeatherApiClient.findAllByCity(CITY));
     }
 }

@@ -1,7 +1,9 @@
 package ua.tonkoshkur.weather.api.openweather;
 
 import lombok.RequiredArgsConstructor;
-import ua.tonkoshkur.weather.api.*;
+import ua.tonkoshkur.weather.api.WeatherApiException;
+import ua.tonkoshkur.weather.api.WeatherHttpClient;
+import ua.tonkoshkur.weather.api.WeatherJsonMapper;
 import ua.tonkoshkur.weather.api.openweather.dto.geo.GeoResponse;
 import ua.tonkoshkur.weather.api.openweather.dto.weather.WeatherResponse;
 import ua.tonkoshkur.weather.common.util.UrlBuilder;
@@ -9,7 +11,7 @@ import ua.tonkoshkur.weather.common.util.UrlBuilder;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class OpenWeatherApi implements WeatherApi {
+public class OpenWeatherApi {
 
     private static final String BASE_URL = "https://api.openweathermap.org";
     private static final String ICON_URL_FORMAT = "https://openweathermap.org/img/wn/%s@2x.png";
@@ -25,19 +27,15 @@ public class OpenWeatherApi implements WeatherApi {
     private static final String LIMIT_PARAM = "limit";
     private static final int MAX_LOCATIONS_LIMIT = 5;
 
-    private final WeatherMapper weatherMapper = new WeatherMapper(ICON_URL_FORMAT);
     private final WeatherJsonMapper jsonMapper = new WeatherJsonMapper();
     private final WeatherHttpClient httpClient;
     private final String apiKey;
 
-    public List<WeatherDto> findAllByCity(String city) throws WeatherApiException {
-        return findGeoByCity(city).stream()
-                .map(geoResponse -> weatherMapper.map(findByCity(geoResponse.getName()), geoResponse))
-                .distinct()
-                .toList();
+    public String getIconUrlFormat() {
+        return ICON_URL_FORMAT;
     }
 
-    private List<GeoResponse> findGeoByCity(String city) throws WeatherApiException {
+    public List<GeoResponse> findGeoByCity(String city) throws WeatherApiException {
         String url = new UrlBuilder(DIRECT_GEO_URL)
                 .addParam(QUERY_PARAM, city)
                 .addParam(LIMIT_PARAM, MAX_LOCATIONS_LIMIT)
@@ -47,7 +45,7 @@ public class OpenWeatherApi implements WeatherApi {
         return jsonMapper.mapList(json, GeoResponse.class);
     }
 
-    private WeatherResponse findByCity(String city) throws WeatherApiException {
+    public WeatherResponse findByCity(String city) throws WeatherApiException {
         String url = new UrlBuilder(WEATHER_DATA_URL)
                 .addParam(QUERY_PARAM, city)
                 .addParam(UNITS_PARAM, DEFAULT_MEASUREMENT_UNIT)

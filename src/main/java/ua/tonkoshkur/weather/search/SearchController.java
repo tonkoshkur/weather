@@ -7,7 +7,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.thymeleaf.context.WebContext;
-import ua.tonkoshkur.weather.api.WeatherApi;
+import ua.tonkoshkur.weather.api.WeatherApiClient;
 import ua.tonkoshkur.weather.api.WeatherApiException;
 import ua.tonkoshkur.weather.api.WeatherDto;
 import ua.tonkoshkur.weather.common.servlet.BaseServlet;
@@ -27,12 +27,12 @@ public class SearchController extends BaseServlet {
     private static final String WEATHER_VARIABLE = "weather";
     private static final String ERROR_VARIABLE = "error";
     private static final String SEARCH_PAGE = "search";
-    private transient WeatherApi weatherApi;
+    private transient WeatherApiClient weatherApiClient;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         ServletContext context = config.getServletContext();
-        weatherApi = (WeatherApi) context.getAttribute(WeatherApi.class.getSimpleName());
+        weatherApiClient = (WeatherApiClient) context.getAttribute(WeatherApiClient.class.getSimpleName());
         super.init(config);
     }
 
@@ -55,7 +55,7 @@ public class SearchController extends BaseServlet {
 
     private void handleSearch(String search, WebContext context) {
         try {
-            List<WeatherDto> weather = weatherApi.findAllByCity(search);
+            List<WeatherDto> weather = weatherApiClient.findAllByCity(search);
             if (!weather.isEmpty()) {
                 context.setVariable(WEATHER_VARIABLE, weather);
                 return;

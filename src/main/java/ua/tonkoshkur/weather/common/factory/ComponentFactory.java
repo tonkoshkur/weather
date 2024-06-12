@@ -3,9 +3,9 @@ package ua.tonkoshkur.weather.common.factory;
 import jakarta.persistence.EntityManagerFactory;
 import lombok.Getter;
 import org.hibernate.cfg.Configuration;
-import ua.tonkoshkur.weather.api.WeatherApi;
+import ua.tonkoshkur.weather.api.WeatherApiClient;
 import ua.tonkoshkur.weather.api.WeatherHttpClient;
-import ua.tonkoshkur.weather.api.openweather.OpenWeatherApi;
+import ua.tonkoshkur.weather.api.openweather.OpenWeatherApiClient;
 import ua.tonkoshkur.weather.auth.AuthService;
 import ua.tonkoshkur.weather.common.properties.AppProperties;
 import ua.tonkoshkur.weather.location.Location;
@@ -22,7 +22,7 @@ public class ComponentFactory {
     private final UserDao userDao;
     private final SessionDao sessionDao;
     private final AuthService authService;
-    private final WeatherApi weatherApi;
+    private final WeatherApiClient weatherApiClient;
     private final ExpiredSessionCleanupScheduler expiredSessionCleanupScheduler;
 
     public ComponentFactory(AppProperties appProperties) {
@@ -33,7 +33,7 @@ public class ComponentFactory {
         userDao = new UserDao(entityManagerFactory);
         sessionDao = new SessionDao(entityManagerFactory);
         authService = new AuthService(sessionTtlMinutes, sessionDao, userDao);
-        weatherApi = new OpenWeatherApi(new WeatherHttpClient(), appProperties.getOpenWeatherApiKey());
+        weatherApiClient = new OpenWeatherApiClient(new WeatherHttpClient(), appProperties.getOpenWeatherApiKey());
         expiredSessionCleanupScheduler = new ExpiredSessionCleanupScheduler(expiredSessionsCleanupMinutes, sessionDao);
     }
 
