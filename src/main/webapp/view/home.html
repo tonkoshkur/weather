@@ -13,7 +13,7 @@
 
 <nav class="navbar navbar-light bg-light justify-content-center">
     <div class="d-flex" th:if="${user}">
-        <div class="me-4 mt-auto mb-auto" th:text="${user.getLogin()}"></div>
+        <div th:text="${user.getLogin()}" class="me-4 mt-auto mb-auto"></div>
         <form action="signout" method="post">
             <input class="btn btn-primary"
                    type="submit"
@@ -26,20 +26,23 @@
     </div>
 </nav>
 
-<div class="d-flex justify-content-center mt-4">
-    <form action="search" class="d-flex">
+<div class="d-flex justify-content-center my-4">
+    <form class="d-flex align-items-center">
         <input aria-label="Search"
-               class="form-control me-2"
+               class="form-control"
                id="search"
                minlength="3"
                name="search"
                placeholder="Search"
+               th:value="${search}"
                type="text">
+        <a class="btn-close mx-2" th:href="@{/}" title="Clear"></a>
         <input class="btn btn-outline-primary"
                type="submit"
                value="Search">
     </form>
 </div>
+<div class="text-secondary text-center" th:text="${error}"/>
 
 </body>
 </html>
