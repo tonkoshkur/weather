@@ -25,8 +25,10 @@ public class Location {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @Column(precision = 17, scale = 15, nullable = false)
     private BigDecimal latitude;
 
+    @Column(precision = 17, scale = 15, nullable = false)
     private BigDecimal longitude;
 
     @Override
