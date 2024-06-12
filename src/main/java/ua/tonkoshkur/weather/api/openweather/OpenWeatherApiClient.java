@@ -19,8 +19,11 @@ public class OpenWeatherApiClient implements WeatherApiClient {
 
     @Override
     public List<WeatherDto> findAllByCity(String city) throws WeatherApiException {
-        return openWeatherApi.findGeoByCity(city).stream()
-                .map(geoResponse -> weatherMapper.map(openWeatherApi.findByCity(geoResponse.getName()), geoResponse))
+        return openWeatherApi.findGeoByCity(city)
+                .stream()
+                .map(geoResponse -> weatherMapper.map(
+                        openWeatherApi.findWeatherByCoordinates(geoResponse.getLat(), geoResponse.getLon()),
+                        geoResponse))
                 .distinct()
                 .toList();
     }

@@ -8,6 +8,7 @@ import ua.tonkoshkur.weather.api.openweather.dto.geo.GeoResponse;
 import ua.tonkoshkur.weather.api.openweather.dto.weather.WeatherResponse;
 import ua.tonkoshkur.weather.common.util.UrlBuilder;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -26,6 +27,8 @@ public class OpenWeatherApi {
     private static final String DEFAULT_MEASUREMENT_UNIT = "metric";
     private static final String LIMIT_PARAM = "limit";
     private static final int MAX_LOCATIONS_LIMIT = 5;
+    private static final String LATITUDE_PARAM = "lat";
+    private static final String LONGITUDE_PARAM = "lon";
 
     private final WeatherJsonMapper jsonMapper = new WeatherJsonMapper();
     private final WeatherHttpClient httpClient;
@@ -45,9 +48,10 @@ public class OpenWeatherApi {
         return jsonMapper.mapList(json, GeoResponse.class);
     }
 
-    public WeatherResponse findByCity(String city) throws WeatherApiException {
+    public WeatherResponse findWeatherByCoordinates(BigDecimal latitude, BigDecimal longitude) throws WeatherApiException {
         String url = new UrlBuilder(WEATHER_DATA_URL)
-                .addParam(QUERY_PARAM, city)
+                .addParam(LATITUDE_PARAM, latitude)
+                .addParam(LONGITUDE_PARAM, longitude)
                 .addParam(UNITS_PARAM, DEFAULT_MEASUREMENT_UNIT)
                 .addParam(APPID_PARAM, apiKey)
                 .build();
