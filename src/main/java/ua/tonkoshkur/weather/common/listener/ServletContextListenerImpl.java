@@ -10,6 +10,7 @@ import ua.tonkoshkur.weather.auth.AuthService;
 import ua.tonkoshkur.weather.common.factory.ComponentFactory;
 import ua.tonkoshkur.weather.common.factory.ThymeleafFactory;
 import ua.tonkoshkur.weather.common.properties.AppProperties;
+import ua.tonkoshkur.weather.location.LocationDao;
 import ua.tonkoshkur.weather.location.weather.LocationWeatherService;
 import ua.tonkoshkur.weather.session.ExpiredSessionCleanupScheduler;
 import ua.tonkoshkur.weather.session.SessionDao;
@@ -40,6 +41,7 @@ public class ServletContextListenerImpl implements ServletContextListener {
         context.setAttribute(SessionDao.class.getSimpleName(), factory.getSessionDao());
         context.setAttribute(ExpiredSessionCleanupScheduler.class.getSimpleName(), factory.getExpiredSessionCleanupScheduler());
         context.setAttribute(LocationWeatherService.class.getSimpleName(), factory.getLocationWeatherService());
+        context.setAttribute(LocationDao.class.getSimpleName(), factory.getLocationDao());
     }
 
     private void startExpiredSessionCleanupScheduler(ServletContext context) {
