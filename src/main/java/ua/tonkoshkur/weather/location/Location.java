@@ -11,7 +11,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
-@Table(name = "Locations")
+@Table(name = "Locations", uniqueConstraints = @UniqueConstraint(columnNames={"user_id", "latitude", "longitude"}))
 public class Location {
 
     @Id
