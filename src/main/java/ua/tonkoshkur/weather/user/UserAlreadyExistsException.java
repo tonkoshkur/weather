@@ -1,4 +1,4 @@
-package ua.tonkoshkur.weather.common.exception;
+package ua.tonkoshkur.weather.user;
 
 public class UserAlreadyExistsException extends RuntimeException {
     public UserAlreadyExistsException() {
