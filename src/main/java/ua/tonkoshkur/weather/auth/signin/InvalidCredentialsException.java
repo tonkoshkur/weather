@@ -1,4 +1,4 @@
-package ua.tonkoshkur.weather.common.exception;
+package ua.tonkoshkur.weather.auth.signin;
 
 public class InvalidCredentialsException extends RuntimeException {
     public InvalidCredentialsException() {

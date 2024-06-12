@@ -4,7 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import ua.tonkoshkur.weather.common.exception.InvalidCredentialsException;
+import ua.tonkoshkur.weather.auth.signin.InvalidCredentialsException;
 import ua.tonkoshkur.weather.common.factory.ComponentFactory;
 import ua.tonkoshkur.weather.common.properties.AppProperties;
 import ua.tonkoshkur.weather.session.Session;

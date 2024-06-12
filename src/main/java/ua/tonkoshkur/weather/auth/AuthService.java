@@ -2,7 +2,7 @@ package ua.tonkoshkur.weather.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
-import ua.tonkoshkur.weather.common.exception.InvalidCredentialsException;
+import ua.tonkoshkur.weather.auth.signin.InvalidCredentialsException;
 import ua.tonkoshkur.weather.session.Session;
 import ua.tonkoshkur.weather.session.SessionDao;
 import ua.tonkoshkur.weather.user.User;

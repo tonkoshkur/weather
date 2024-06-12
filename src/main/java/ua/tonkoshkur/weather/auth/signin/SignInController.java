@@ -8,7 +8,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.thymeleaf.context.WebContext;
 import ua.tonkoshkur.weather.auth.AuthService;
-import ua.tonkoshkur.weather.common.exception.InvalidCredentialsException;
 import ua.tonkoshkur.weather.common.servlet.BaseServlet;
 import ua.tonkoshkur.weather.common.util.CookieHelper;
 import ua.tonkoshkur.weather.session.Session;
