@@ -2,6 +2,7 @@ package ua.tonkoshkur.weather.location;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.exception.ConstraintViolationException;
 import ua.tonkoshkur.weather.common.dao.BaseDao;
@@ -29,4 +30,14 @@ public class LocationDao extends BaseDao {
             // No need to do anything yet
         }
     }
+
+    public void deleteById(int locationId) {
+        String sql = "delete from Location where id = :locationId";
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
+            Query query = entityManager.createQuery(sql)
+                    .setParameter("locationId", locationId);
+            executeTransactional(entityManager, query::executeUpdate);
+        }
+    }
+
 }

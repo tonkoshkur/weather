@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.thymeleaf.context.WebContext;
 import ua.tonkoshkur.weather.common.servlet.BaseServlet;
+import ua.tonkoshkur.weather.common.util.PathVariableExtractor;
 import ua.tonkoshkur.weather.common.util.UrlBuilder;
 import ua.tonkoshkur.weather.location.Location;
 import ua.tonkoshkur.weather.location.LocationDao;
@@ -63,6 +64,13 @@ public class HomeController extends BaseServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Location location = httpRequestToLocationMapper.map(req);
         locationDao.save(location);
+        selfRedirect(req, resp);
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String locationId = PathVariableExtractor.extract(req.getServletPath());
+        locationDao.deleteById(Integer.parseInt(locationId));
         selfRedirect(req, resp);
     }
 
