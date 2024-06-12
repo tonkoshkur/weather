@@ -2,6 +2,7 @@ package ua.tonkoshkur.weather.location;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ua.tonkoshkur.weather.user.User;
 
@@ -10,6 +11,7 @@ import java.util.Objects;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "Locations", uniqueConstraints = @UniqueConstraint(columnNames={"user_id", "latitude", "longitude"}))
 public class Location {
@@ -30,6 +32,13 @@ public class Location {
 
     @Column(precision = 17, scale = 15, nullable = false)
     private BigDecimal longitude;
+
+    public Location(String name, User user, BigDecimal latitude, BigDecimal longitude) {
+        this.name = name;
+        this.user = user;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
 
     @Override
     public boolean equals(Object o) {

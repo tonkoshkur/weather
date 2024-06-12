@@ -10,6 +10,7 @@ import ua.tonkoshkur.weather.common.util.UrlBuilder;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 public class OpenWeatherApi {
@@ -20,6 +21,7 @@ public class OpenWeatherApi {
     private static final String WEATHER_DATA_URL = BASE_URL + "/data/2.5/weather";
     // https://openweathermap.org/api/geocoding-api
     private static final String DIRECT_GEO_URL = BASE_URL + "/geo/1.0/direct";
+    private static final String REVERSE_GEO_URL = BASE_URL + "/geo/1.0/reverse";
 
     private static final String APPID_PARAM = "appid";
     private static final String QUERY_PARAM = "q";
@@ -57,5 +59,18 @@ public class OpenWeatherApi {
                 .build();
         String json = httpClient.sendRequest(url);
         return jsonMapper.map(json, WeatherResponse.class);
+    }
+
+    public Optional<GeoResponse> findGeoByCoordinates(BigDecimal latitude, BigDecimal longitude) throws WeatherApiException {
+        String url = new UrlBuilder(REVERSE_GEO_URL)
+                .addParam(LATITUDE_PARAM, latitude)
+                .addParam(LONGITUDE_PARAM, longitude)
+                .addParam(LIMIT_PARAM, MAX_LOCATIONS_LIMIT)
+                .addParam(APPID_PARAM, apiKey)
+                .build();
+        String json = httpClient.sendRequest(url);
+        return jsonMapper.mapList(json, GeoResponse.class)
+                .stream()
+                .findAny();
     }
 }

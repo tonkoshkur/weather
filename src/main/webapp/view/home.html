@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <title>Weather</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <link crossorigin="anonymous"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
@@ -43,6 +44,79 @@
     </form>
 </div>
 <div class="text-secondary text-center" th:text="${error}"/>
+
+<div class="container d-flex flex-wrap justify-content-center my-4"
+     th:fragment="weathercards"
+     xmlns:th="http://www.thymeleaf.org">
+
+    <div class="card m-2 p-3 d-flex justify-content-between"
+         style="width: 24rem"
+         th:each="lw : ${locationWeather}"
+         th:with="w = ${lw.weather()}">
+
+        <div class="row justify-content-center mb-2">
+            <div class="col text-center">
+                <div class="h4 mb-0" th:text="${w.getCity()}"/>
+                (<span th:if="${w.getState()}" th:text="${w.getState() + ', '}"/><span th:text="${w.getCountryCode()}"/>)
+            </div>
+
+            <div class="col-auto"
+                 th:if="${user}"
+                 th:with="locationId = ${lw.locationId()}">
+                <form th:if="${locationId}"
+                      th:action="@{/{locationId}(locationId=${locationId})}">
+                    <input name="_method" value="delete" type="hidden">
+                    <input name="search" th:value="${search}" type="hidden"/>
+                    <input name="locationId" th:value="${locationId}" type="hidden">
+                    <button class="btn btn-outline-primary" type="submit">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </form>
+                <form method="post"
+                      th:unless="${locationId}"
+                      th:action="@{/}">
+                    <input name="search" th:value="${search}" type="hidden"/>
+                    <input name="name" th:value="${w.getCity()}" type="hidden"/>
+                    <input name="latitude" th:value="${w.getLatitude()}" type="hidden"/>
+                    <input name="longitude" th:value="${w.getLongitude()}" type="hidden"/>
+                    <button class="btn btn-outline-primary" type="submit">
+                        <i class="bi bi-plus-lg"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="row align-items-center">
+            <div class="col text-center">
+                <div class="d-flex flex-wrap justify-content-center align-items-center">
+                    <img alt="Weather icon"
+                         height="100"
+                         th:src="${w.getIconUrl()}"
+                         width="100"/>
+                    <div>
+                        <span class="h2" th:text="${w.getTemperature()}"/>
+                        <span class="mb-3">°C</span>
+                    </div>
+                </div>
+                <div th:text="${w.getName()}"></div>
+                <div>(<span th:text="${w.getDescription()}"/>)</div>
+            </div>
+
+            <div class="col">
+                <div><i class="bi bi-thermometer-half"></i> Feels like: <span th:text="${w.getFeelsLike()}"/>°</div>
+                <div><i class="bi bi-thermometer-low"></i> Min: <span th:text="${w.getMinTemperature()}"/>°</div>
+                <div><i class="bi bi-thermometer-high"></i> Max: <span th:text="${w.getMaxTemperature()}"/>°</div>
+                <div><i class="bi bi-moisture"></i> Humidity: <span th:text="${w.getHumidity()}"/>%</div>
+                <div><i class="bi bi-wind"></i> Wind: <span th:text="${w.getWindSpeed()}"/> m/sec</div>
+                <div><i class="bi bi-eye"></i> Visibility: <span th:text="${w.getVisibility()}"/> km</div>
+                <div><i class="bi bi-geo"></i> Latitude: <span th:text="${w.getLatitude().setScale(3, 4)}"/></div>
+                <div><i class="bi bi-geo-fill"></i> Longitude: <span th:text="${w.getLongitude().setScale(3, 4)}"/></div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
 
 </body>
 </html>

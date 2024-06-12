@@ -6,11 +6,11 @@ import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.web.servlet.JakartaServletWebApplication;
-import ua.tonkoshkur.weather.api.WeatherApiClient;
 import ua.tonkoshkur.weather.auth.AuthService;
 import ua.tonkoshkur.weather.common.factory.ComponentFactory;
 import ua.tonkoshkur.weather.common.factory.ThymeleafFactory;
 import ua.tonkoshkur.weather.common.properties.AppProperties;
+import ua.tonkoshkur.weather.location.weather.LocationWeatherService;
 import ua.tonkoshkur.weather.session.ExpiredSessionCleanupScheduler;
 import ua.tonkoshkur.weather.session.SessionDao;
 
@@ -39,7 +39,7 @@ public class ServletContextListenerImpl implements ServletContextListener {
         context.setAttribute(AuthService.class.getSimpleName(), factory.getAuthService());
         context.setAttribute(SessionDao.class.getSimpleName(), factory.getSessionDao());
         context.setAttribute(ExpiredSessionCleanupScheduler.class.getSimpleName(), factory.getExpiredSessionCleanupScheduler());
-        context.setAttribute(WeatherApiClient.class.getSimpleName(), factory.getWeatherApiClient());
+        context.setAttribute(LocationWeatherService.class.getSimpleName(), factory.getLocationWeatherService());
     }
 
     private void startExpiredSessionCleanupScheduler(ServletContext context) {

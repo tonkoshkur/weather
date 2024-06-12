@@ -1,5 +1,6 @@
 package ua.tonkoshkur.weather.common.util;
 
+import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 
@@ -19,6 +20,10 @@ public class UrlBuilder {
     }
 
     public UrlBuilder addParam(String name, long value) {
+        return addParamInner(name, value);
+    }
+
+    public UrlBuilder addParam(String name, BigDecimal value) {
         return addParamInner(name, value);
     }
 

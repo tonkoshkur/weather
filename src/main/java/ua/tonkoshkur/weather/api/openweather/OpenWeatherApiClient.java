@@ -4,8 +4,11 @@ import ua.tonkoshkur.weather.api.WeatherApiClient;
 import ua.tonkoshkur.weather.api.WeatherApiException;
 import ua.tonkoshkur.weather.api.WeatherDto;
 import ua.tonkoshkur.weather.api.WeatherHttpClient;
+import ua.tonkoshkur.weather.api.openweather.dto.weather.WeatherResponse;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 public class OpenWeatherApiClient implements WeatherApiClient {
 
@@ -26,5 +29,14 @@ public class OpenWeatherApiClient implements WeatherApiClient {
                         geoResponse))
                 .distinct()
                 .toList();
+    }
+
+    @Override
+    public Optional<WeatherDto> findByCoordinates(BigDecimal latitude, BigDecimal longitude) throws WeatherApiException {
+        WeatherResponse weatherResponse = openWeatherApi.findWeatherByCoordinates(latitude, longitude);
+        return openWeatherApi.findGeoByCoordinates(latitude, longitude)
+                .stream()
+                .map(geoResponse -> weatherMapper.map(weatherResponse, geoResponse))
+                .findAny();
     }
 }
