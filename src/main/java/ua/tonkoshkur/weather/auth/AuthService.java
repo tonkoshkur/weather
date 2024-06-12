@@ -33,15 +33,8 @@ public class AuthService {
     }
 
     public Session signUp(String login, String password) throws UserAlreadyExistsException {
-        throwIfUserExists(login);
         User user = saveUser(login, password);
         return createSessionForUser(user);
-    }
-
-    private void throwIfUserExists(String login) throws UserAlreadyExistsException {
-        if (userDao.findByLogin(login).isPresent()) {
-            throw new UserAlreadyExistsException();
-        }
     }
 
     private User saveUser(String login, String password) throws UserAlreadyExistsException {

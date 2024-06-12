@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.exception.ConstraintViolationException;
 import ua.tonkoshkur.weather.common.dao.BaseDao;
 
 import java.util.Optional;
@@ -23,10 +24,12 @@ public class UserDao extends BaseDao {
         }
     }
 
-    public User save(User user) {
+    public User save(User user) throws UserAlreadyExistsException {
         try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
             executeTransactional(entityManager, () -> entityManager.persist(user));
             return user;
+        } catch (ConstraintViolationException e) {
+            throw new UserAlreadyExistsException();
         }
     }
 
