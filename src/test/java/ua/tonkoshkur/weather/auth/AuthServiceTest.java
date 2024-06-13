@@ -37,7 +37,7 @@ class AuthServiceTest {
     }
 
     @Test
-    void givenExistedUser_whenSignIn_thenCreateSession() {
+    void signIn_withExistingUserCredentials_createsSession() {
         authService.signUp(USER_LOGIN, USER_PASSWORD);
 
         Session session = authService.signIn(USER_LOGIN, USER_PASSWORD);
@@ -47,7 +47,7 @@ class AuthServiceTest {
     }
 
     @Test
-    void givenExistedUser_whenSignIn_thenReturnSessionWithThisUser() {
+    void signIn_withExistingUserCredentials_returnsSessionWithUser() {
         User user = authService.signUp(USER_LOGIN, USER_PASSWORD).getUser();
 
         Session session = authService.signIn(USER_LOGIN, USER_PASSWORD);
@@ -56,12 +56,12 @@ class AuthServiceTest {
     }
 
     @Test
-    void givenNewUser_whenSignIn_thenThrowsInvalidCredentialsException() {
+    void signIn_withNonExistingUserCredentials_throwsInvalidCredentialsException() {
         Assertions.assertThrows(InvalidCredentialsException.class, () -> authService.signIn(USER_LOGIN, USER_PASSWORD));
     }
 
     @Test
-    void givenNewUser_whenSignUp_thenCreateUser() {
+    void signUp_withNonExistingUserCredentials_createsUser() {
         authService.signUp(USER_LOGIN, USER_PASSWORD);
 
         boolean created = userDao.findByLogin(USER_LOGIN).isPresent();
@@ -69,7 +69,7 @@ class AuthServiceTest {
     }
 
     @Test
-    void givenNewUser_whenSignUp_thenCreateSession() {
+    void signUp_withNonExistingUserCredentials_createsSession() {
         Session session = authService.signUp(USER_LOGIN, USER_PASSWORD);
 
         boolean created = sessionDao.findById(session.getId()).isPresent();
@@ -77,14 +77,14 @@ class AuthServiceTest {
     }
 
     @Test
-    void givenExistingUser_whenSignUp_thenThrowsUserAlreadyExistsException() {
+    void signUp_withExistingUserCredentials_throwsUserAlreadyExistsException() {
         authService.signUp(USER_LOGIN, USER_PASSWORD);
 
         Assertions.assertThrows(UserAlreadyExistsException.class, () -> authService.signUp(USER_LOGIN, USER_PASSWORD));
     }
 
     @Test
-    void givenExistingSession_whenSignOut_thenDeleteSession() {
+    void signOut_withExistingSession_deletesSession() {
         Session session = authService.signUp(USER_LOGIN, USER_PASSWORD);
 
         authService.signOut(session.getId());
