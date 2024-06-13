@@ -98,7 +98,7 @@ class OpenWeatherApiTest {
     }
 
     @Test
-    void givenGeoResponse_whenFindGeoByCity_thenReturnCorrectGeoResponse() {
+    void findGeoByCity_whenHttpClientReturnsValidResponse_returnsCorrectGeoResponse() {
         when(httpClient.sendRequest(anyString())).thenReturn(GEO_RESPONSE);
 
         List<GeoResponse> geoResponses = openWeatherApi.findGeoByCity(CITY);
@@ -108,7 +108,7 @@ class OpenWeatherApiTest {
     }
 
     @Test
-    void givenWeatherResponse_whenFindGeoByCoordinates_thenReturnCorrectGeoResponse() {
+    void findGeoByCoordinates_whenHttpClientReturnsValidResponse_returnsCorrectGeoResponse() {
         when(httpClient.sendRequest(anyString())).thenReturn(GEO_RESPONSE);
 
         Optional<GeoResponse> optionalResponse = openWeatherApi.findGeoByCoordinates(LATITUDE, LONGITUDE);
@@ -128,7 +128,7 @@ class OpenWeatherApiTest {
     }
 
     @Test
-    void givenWeatherResponse_whenFindWeatherByCoordinates_thenReturnCorrectWeatherResponse() {
+    void findWeatherByCoordinates_whenHttpClientReturnsValidResponse_returnsCorrectWeatherResponse() {
         BigDecimal latitude = new BigDecimal("51.5085");
         BigDecimal longitude = new BigDecimal("-0.1257");
         when(httpClient.sendRequest(anyString())).thenReturn(WEATHER_RESPONSE);
@@ -150,19 +150,19 @@ class OpenWeatherApiTest {
     }
 
     @Test
-    void givenNotValidResponse_whenFindGeoByCity_thenThrowWeatherApiException() {
+    void findGeoByCity_whenHttpClientReturnsInvalidResponse_throwsWeatherApiException() {
         when(httpClient.sendRequest(anyString())).thenReturn(anyString());
         assertThrows(WeatherApiException.class, () -> openWeatherApi.findGeoByCity(CITY));
     }
 
     @Test
-    void givenNotValidResponse_whenFindGeoByCoordinates_thenThrowWeatherApiException() {
+    void findGeoByCoordinates_whenHttpClientReturnsInvalidResponse_throwsWeatherApiException() {
         when(httpClient.sendRequest(anyString())).thenReturn(anyString());
         assertThrows(WeatherApiException.class, () -> openWeatherApi.findGeoByCoordinates(LATITUDE, LONGITUDE));
     }
 
     @Test
-    void givenNotValidResponse_whenFindWeatherByCoordinates_thenThrowWeatherApiException() {
+    void findWeatherByCoordinates_whenHttpClientReturnsInvalidResponse_throwsWeatherApiException() {
         when(httpClient.sendRequest(anyString())).thenReturn(anyString());
         assertThrows(WeatherApiException.class, () -> openWeatherApi.findWeatherByCoordinates(LATITUDE, LONGITUDE));
     }
