@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import ua.tonkoshkur.weather.api.WeatherApiException;
 import ua.tonkoshkur.weather.api.WeatherHttpClient;
 import ua.tonkoshkur.weather.api.openweather.dto.geo.GeoResponse;
 import ua.tonkoshkur.weather.api.openweather.dto.weather.WeatherResponse;
@@ -15,6 +16,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -22,6 +24,8 @@ import static org.mockito.Mockito.when;
 class OpenWeatherApiTest {
 
     private static final String CITY = "London";
+    private static final BigDecimal LATITUDE = BigDecimal.valueOf(51.5073219);
+    private static final BigDecimal LONGITUDE = BigDecimal.valueOf(-0.1276474);
     private static final String GEO_RESPONSE = """
             [
                 {
@@ -105,11 +109,9 @@ class OpenWeatherApiTest {
 
     @Test
     void givenWeatherResponse_whenFindGeoByCoordinates_thenReturnCorrectGeoResponse() {
-        BigDecimal latitude = new BigDecimal("51.5073219");
-        BigDecimal longitude = new BigDecimal("-0.1276474");
         when(httpClient.sendRequest(anyString())).thenReturn(GEO_RESPONSE);
 
-        Optional<GeoResponse> optionalResponse = openWeatherApi.findGeoByCoordinates(latitude, longitude);
+        Optional<GeoResponse> optionalResponse = openWeatherApi.findGeoByCoordinates(LATITUDE, LONGITUDE);
 
         assertThat(optionalResponse)
                 .isPresent()
@@ -121,8 +123,8 @@ class OpenWeatherApiTest {
         assertEquals(CITY, geoResponse.getName());
         assertEquals("England", geoResponse.getState());
         assertEquals("GB", geoResponse.getCountry());
-        assertThat(geoResponse.getLat()).isEqualTo("51.5073219");
-        assertThat(geoResponse.getLon()).isEqualTo("-0.1276474");
+        assertThat(geoResponse.getLat()).isEqualTo(LATITUDE);
+        assertThat(geoResponse.getLon()).isEqualTo(LONGITUDE);
     }
 
     @Test
@@ -145,5 +147,23 @@ class OpenWeatherApiTest {
                 .isNotEmpty()
                 .first()
                 .hasNoNullFieldsOrProperties();
+    }
+
+    @Test
+    void givenNotValidResponse_whenFindGeoByCity_thenThrowWeatherApiException() {
+        when(httpClient.sendRequest(anyString())).thenReturn(anyString());
+        assertThrows(WeatherApiException.class, () -> openWeatherApi.findGeoByCity(CITY));
+    }
+
+    @Test
+    void givenNotValidResponse_whenFindGeoByCoordinates_thenThrowWeatherApiException() {
+        when(httpClient.sendRequest(anyString())).thenReturn(anyString());
+        assertThrows(WeatherApiException.class, () -> openWeatherApi.findGeoByCoordinates(LATITUDE, LONGITUDE));
+    }
+
+    @Test
+    void givenNotValidResponse_whenFindWeatherByCoordinates_thenThrowWeatherApiException() {
+        when(httpClient.sendRequest(anyString())).thenReturn(anyString());
+        assertThrows(WeatherApiException.class, () -> openWeatherApi.findWeatherByCoordinates(LATITUDE, LONGITUDE));
     }
 }
