@@ -12,7 +12,6 @@ import ua.tonkoshkur.weather.api.openweather.dto.weather.WeatherResponse;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -111,11 +110,10 @@ class OpenWeatherApiTest {
     void findGeoByCoordinates_whenHttpClientReturnsValidResponse_returnsCorrectGeoResponse() {
         when(httpClient.sendRequest(anyString())).thenReturn(GEO_RESPONSE);
 
-        Optional<GeoResponse> optionalResponse = openWeatherApi.findGeoByCoordinates(LATITUDE, LONGITUDE);
+        List<GeoResponse> optionalResponse = openWeatherApi.findGeoByCoordinates(LATITUDE, LONGITUDE);
 
         assertThat(optionalResponse)
-                .isPresent()
-                .get()
+                .singleElement()
                 .satisfies(this::assertThatCorrectGeoResponse);
     }
 

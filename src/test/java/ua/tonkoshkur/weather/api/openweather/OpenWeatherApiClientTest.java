@@ -109,7 +109,7 @@ class OpenWeatherApiClientTest {
 
     @Test
     void findAllByCoordinates_withGeoResponseCoordinates_returnsCorrectWeatherDto() {
-        doReturn(Optional.of(geoResponse)).when(openWeatherApi).findGeoByCoordinates(any(), any());
+        doReturn(List.of(geoResponse)).when(openWeatherApi).findGeoByCoordinates(any(), any());
         doReturn(weatherResponse).when(openWeatherApi).findWeatherByCoordinates(any(), any());
 
         Optional<WeatherDto> weather = openWeatherApiClient.findByCoordinates(geoResponse.getLat(), geoResponse.getLon());

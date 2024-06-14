@@ -61,7 +61,7 @@ public class OpenWeatherApi {
         return jsonMapper.map(json, WeatherResponse.class);
     }
 
-    public Optional<GeoResponse> findGeoByCoordinates(BigDecimal latitude, BigDecimal longitude) throws WeatherApiException {
+    public List<GeoResponse> findGeoByCoordinates(BigDecimal latitude, BigDecimal longitude) throws WeatherApiException {
         String url = new UrlBuilder(REVERSE_GEO_URL)
                 .addParam(LATITUDE_PARAM, latitude)
                 .addParam(LONGITUDE_PARAM, longitude)
@@ -69,8 +69,6 @@ public class OpenWeatherApi {
                 .addParam(APPID_PARAM, apiKey)
                 .build();
         String json = httpClient.sendRequest(url);
-        return jsonMapper.mapList(json, GeoResponse.class)
-                .stream()
-                .findAny();
+        return jsonMapper.mapList(json, GeoResponse.class);
     }
 }
