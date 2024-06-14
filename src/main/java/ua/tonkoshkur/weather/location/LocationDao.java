@@ -31,13 +31,13 @@ public class LocationDao extends BaseDao {
         }
     }
 
-    public void deleteById(int locationId) {
-        String sql = "delete from Location where id = :locationId";
+    public void deleteByIdAndUserId(int locationId, int userId) {
+        String sql = "delete from Location where id = :locationId and user.id = :userId";
         try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
             Query query = entityManager.createQuery(sql)
-                    .setParameter("locationId", locationId);
+                    .setParameter("locationId", locationId)
+                    .setParameter("userId", userId);
             executeTransactional(entityManager, query::executeUpdate);
         }
     }
-
 }
