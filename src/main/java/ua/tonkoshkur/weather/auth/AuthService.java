@@ -1,7 +1,7 @@
 package ua.tonkoshkur.weather.auth;
 
 import lombok.RequiredArgsConstructor;
-import ua.tonkoshkur.weather.auth.signin.InvalidCredentialsException;
+import ua.tonkoshkur.weather.common.exception.InvalidCredentialsException;
 import ua.tonkoshkur.weather.common.util.PasswordEncryptor;
 import ua.tonkoshkur.weather.session.Session;
 import ua.tonkoshkur.weather.session.SessionDao;

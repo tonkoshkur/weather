@@ -3,7 +3,7 @@ package ua.tonkoshkur.weather.common.filter;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
-import ua.tonkoshkur.weather.auth.signin.InvalidCredentialsException;
+import ua.tonkoshkur.weather.common.exception.InvalidCredentialsException;
 
 import java.io.IOException;
 
