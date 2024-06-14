@@ -23,11 +23,11 @@ public class LocationDao extends BaseDao {
         }
     }
 
-    public void save(Location location) {
+    public void save(Location location) throws LocationAlreadyExistsException {
         try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
             executeTransactional(entityManager, () -> entityManager.persist(location));
         } catch (ConstraintViolationException ignore) {
-            // No need to do anything yet
+            throw new LocationAlreadyExistsException();
         }
     }
 
