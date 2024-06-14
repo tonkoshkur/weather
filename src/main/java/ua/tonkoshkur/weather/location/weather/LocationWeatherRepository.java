@@ -32,7 +32,7 @@ public class LocationWeatherRepository {
     private Stream<LocationWeatherDto> findAllByLocation(Location location) {
         return weatherApiClient.findByCoordinates(location.getLatitude(), location.getLongitude())
                 .stream()
-                .map(weather -> new LocationWeatherDto(location.getId(), weather));
+                .map(weather -> new LocationWeatherDto(location.getId(), location.getName(), weather));
     }
 
     public List<LocationWeatherDto> findAllByCityAndUserId(String city, int userId) {
@@ -47,7 +47,7 @@ public class LocationWeatherRepository {
         return locations.stream()
                 .filter(location -> isWeatherMatchingLocation(weather, location))
                 .findAny()
-                .map(location -> new LocationWeatherDto(location.getId(), weather))
+                .map(location -> new LocationWeatherDto(location.getId(), location.getName(), weather))
                 .orElse(new LocationWeatherDto(weather));
     }
 

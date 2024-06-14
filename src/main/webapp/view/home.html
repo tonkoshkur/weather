@@ -56,7 +56,8 @@
 
         <div class="row justify-content-center mb-2">
             <div class="col text-center">
-                <div class="h4 mb-0" th:text="${w.getCity()}"/>
+                <div class="h4 mb-0" th:text="${lw.name()}"/>
+                <div class="h4 mb-0" th:text="${w.getCity()}" th:unless="${lw.name()}"/>
                 (<span th:if="${w.getState()}" th:text="${w.getState() + ', '}"/><span th:text="${w.getCountryCode()}"/>)
             </div>
 
