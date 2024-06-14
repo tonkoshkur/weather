@@ -50,23 +50,9 @@ public class SignUpController extends BaseServlet {
             Session session = authService.signUp(signUpRequest.login(), signUpRequest.password());
             CookieHelper.setSessionId(session, resp);
             resp.sendRedirect(req.getContextPath());
-        } catch (BadRequestException e) {
-            handleBadRequest(signUpRequest, e, req, resp);
-        } catch (UserAlreadyExistsException e) {
-            handleUserAlreadyExists(signUpRequest, e, req, resp);
+        } catch (BadRequestException | UserAlreadyExistsException e) {
+            handleSignUpError(signUpRequest, e.getMessage(), req, resp);
         }
-    }
-
-    private void handleBadRequest(SignUpRequest signUpRequest, BadRequestException e,
-                                  HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        handleSignUpError(signUpRequest, e.getMessage(), req, resp);
-    }
-
-    private void handleUserAlreadyExists(SignUpRequest signUpRequest, UserAlreadyExistsException e,
-                                         HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.setStatus(HttpServletResponse.SC_CONFLICT);
-        handleSignUpError(signUpRequest, e.getMessage(), req, resp);
     }
 
     private void handleSignUpError(SignUpRequest signUpRequest, String error,

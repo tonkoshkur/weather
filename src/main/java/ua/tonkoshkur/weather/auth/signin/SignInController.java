@@ -53,7 +53,6 @@ public class SignInController extends BaseServlet {
 
     private void handleUnauthorized(SignInRequest signInRequest, String error,
                                     HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         WebContext context = buildWebContext(request, response);
         context.setVariable(SIGN_IN_REQUEST_VARIABLE, signInRequest);
         context.setVariable("error", error);
