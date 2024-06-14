@@ -69,8 +69,8 @@ public class HomeController extends BaseServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String locationId = PathVariableExtractor.extract(req.getServletPath());
-        locationDao.deleteById(Integer.parseInt(locationId));
+        int locationId = PathVariableExtractor.extract(req.getServletPath(), Integer::parseInt);
+        locationDao.deleteById(locationId);
         selfRedirect(req, resp);
     }
 
