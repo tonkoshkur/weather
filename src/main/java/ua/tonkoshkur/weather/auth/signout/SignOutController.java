@@ -28,6 +28,7 @@ public class SignOutController extends BaseServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         CookieHelper.getSessionId(req)
                 .ifPresent(sessionId -> authService.signOut(sessionId));
+        req.getSession().invalidate();
         resp.sendRedirect(req.getContextPath());
     }
 }
