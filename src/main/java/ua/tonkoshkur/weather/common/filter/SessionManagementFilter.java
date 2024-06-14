@@ -33,15 +33,25 @@ public class SessionManagementFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
-        HttpSession httpSession = httpRequest.getSession();
 
-        CookieHelper.getSessionId(httpRequest)
-                .flatMap(sessionDao::findById)
-                .filter(this::isSessionAlive)
-                .ifPresentOrElse(session -> handleValidSession(httpSession, session, (HttpServletResponse) response),
-                        () -> handleInvalidSession(httpSession));
+        if (!isAuthRequest(httpRequest)) {
+            manageSession(httpRequest, (HttpServletResponse) response);
+        }
 
         chain.doFilter(request, response);
+    }
+
+    private boolean isAuthRequest(HttpServletRequest request) {
+        return request.getServletPath().startsWith("/auth/");
+    }
+
+    private void manageSession(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession httpSession = request.getSession();
+        CookieHelper.getSessionId(request)
+                .flatMap(sessionDao::findById)
+                .filter(this::isSessionAlive)
+                .ifPresentOrElse(session -> handleValidSession(httpSession, session, response),
+                        () -> handleInvalidSession(httpSession));
     }
 
     private boolean isSessionAlive(Session session) {
