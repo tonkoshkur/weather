@@ -16,8 +16,12 @@ public class OpenWeatherApiClient implements WeatherApiClient {
     private final WeatherMapper weatherMapper;
 
     public OpenWeatherApiClient(WeatherHttpClient weatherHttpClient, String apiKey) {
-        openWeatherApi = new OpenWeatherApi(weatherHttpClient, apiKey);
-        weatherMapper = new WeatherMapper(openWeatherApi.getIconUrlFormat());
+        this(new OpenWeatherApi(weatherHttpClient, apiKey));
+    }
+
+    public OpenWeatherApiClient(OpenWeatherApi openWeatherApi) {
+        this.openWeatherApi = openWeatherApi;
+        this.weatherMapper = new WeatherMapper(openWeatherApi.getIconUrlFormat());
     }
 
     @Override
