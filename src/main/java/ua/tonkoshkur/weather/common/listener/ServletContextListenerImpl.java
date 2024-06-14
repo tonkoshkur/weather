@@ -37,6 +37,7 @@ public class ServletContextListenerImpl implements ServletContextListener {
 
     private void initComponents(ServletContext context, AppProperties appProperties) {
         ComponentFactory factory = new ComponentFactory(appProperties);
+        context.setAttribute(AppProperties.class.getSimpleName(), appProperties);
         context.setAttribute(AuthService.class.getSimpleName(), factory.getAuthService());
         context.setAttribute(SessionDao.class.getSimpleName(), factory.getSessionDao());
         context.setAttribute(ExpiredSessionCleanupScheduler.class.getSimpleName(), factory.getExpiredSessionCleanupScheduler());

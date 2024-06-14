@@ -3,7 +3,9 @@ package ua.tonkoshkur.weather.common.filter;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import ua.tonkoshkur.weather.common.properties.AppProperties;
 import ua.tonkoshkur.weather.common.util.CookieHelper;
 import ua.tonkoshkur.weather.session.ExpiredSessionException;
 import ua.tonkoshkur.weather.session.Session;
@@ -17,10 +19,14 @@ import java.time.LocalDateTime;
 public class SessionManagementFilter implements Filter {
 
     private static final String USER_ATTRIBUTE = "user";
+    private long sessionTtlMinutes;
     private SessionDao sessionDao;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
+        AppProperties appProperties = (AppProperties) filterConfig.getServletContext()
+                .getAttribute(AppProperties.class.getSimpleName());
+        sessionTtlMinutes = appProperties.getSessionTtlMinutes();
         sessionDao = (SessionDao) filterConfig.getServletContext().getAttribute(SessionDao.class.getSimpleName());
     }
 
@@ -32,14 +38,31 @@ public class SessionManagementFilter implements Filter {
         CookieHelper.getSessionId(httpRequest)
                 .flatMap(sessionDao::findById)
                 .filter(this::isSessionAlive)
-                .map(Session::getUser)
-                .ifPresentOrElse(user -> httpSession.setAttribute(USER_ATTRIBUTE, user),
+                .ifPresentOrElse(session -> manageSession(httpSession, session, (HttpServletResponse) response),
                         () -> handleInvalidSession(httpSession));
+
         chain.doFilter(request, response);
     }
 
     private boolean isSessionAlive(Session session) {
         return session.getExpiresAt().isAfter(LocalDateTime.now());
+    }
+
+    private void manageSession(HttpSession httpSession, Session session, HttpServletResponse response) {
+        addUserToSession(httpSession, session.getUser());
+        prolongSession(session, response);
+    }
+
+    private void addUserToSession(HttpSession httpSession, User user) {
+        httpSession.setAttribute(USER_ATTRIBUTE, user);
+    }
+
+    private void prolongSession(Session session, HttpServletResponse response) {
+        LocalDateTime expiresAt = LocalDateTime.now().plusMinutes(sessionTtlMinutes);
+        session.setExpiresAt(expiresAt);
+        Session updatedSession = sessionDao.update(session);
+
+        CookieHelper.setSessionId(updatedSession, response);
     }
 
     private void handleInvalidSession(HttpSession httpSession) {

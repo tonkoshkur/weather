@@ -28,6 +28,13 @@ public class SessionDao extends BaseDao {
         }
     }
 
+    public Session update(Session session) {
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
+            executeTransactional(entityManager, () -> entityManager.merge(session));
+            return session;
+        }
+    }
+
     public void deleteById(String sessionId) {
         try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
             executeTransactional(entityManager, () -> {
