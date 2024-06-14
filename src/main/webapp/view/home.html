@@ -65,17 +65,16 @@
                  th:if="${user}"
                  th:with="locationId = ${lw.locationId()}">
                 <form th:if="${locationId}"
-                      th:action="@{/{locationId}(locationId=${locationId})}">
+                      th:action="@{/location/{locationId}(locationId=${locationId})}">
                     <input name="_method" value="delete" type="hidden">
                     <input name="search" th:value="${search}" type="hidden"/>
-                    <input name="locationId" th:value="${locationId}" type="hidden">
                     <button class="btn btn-outline-primary" type="submit">
                         <i class="bi bi-trash"></i>
                     </button>
                 </form>
                 <form method="post"
                       th:unless="${locationId}"
-                      th:action="@{/}">
+                      th:action="@{/location}">
                     <input name="search" th:value="${search}" type="hidden"/>
                     <input name="name" th:value="${w.getCity()}" type="hidden"/>
                     <input name="latitude" th:value="${w.getLatitude()}" type="hidden"/>

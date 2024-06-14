@@ -1,7 +1,6 @@
-package ua.tonkoshkur.weather.home;
+package ua.tonkoshkur.weather.location;
 
 import jakarta.servlet.http.HttpServletRequest;
-import ua.tonkoshkur.weather.location.Location;
 import ua.tonkoshkur.weather.user.User;
 
 import java.math.BigDecimal;
