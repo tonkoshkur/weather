@@ -19,7 +19,11 @@ public final class CookieHelper {
     private static final String SESSION_ID_KEY = "sessionId";
 
     public static Optional<String> getSessionId(HttpServletRequest request) {
-        return Arrays.stream(request.getCookies())
+        Cookie[] cookies = request.getCookies();
+        if (cookies == null) {
+            return Optional.empty();
+        }
+        return Arrays.stream(cookies)
                 .filter(cookie -> cookie.getName().equals(SESSION_ID_KEY))
                 .map(Cookie::getValue)
                 .findAny();
