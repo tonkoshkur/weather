@@ -38,7 +38,7 @@ public class SessionManagementFilter implements Filter {
         CookieHelper.getSessionId(httpRequest)
                 .flatMap(sessionDao::findById)
                 .filter(this::isSessionAlive)
-                .ifPresentOrElse(session -> manageSession(httpSession, session, (HttpServletResponse) response),
+                .ifPresentOrElse(session -> handleValidSession(httpSession, session, (HttpServletResponse) response),
                         () -> handleInvalidSession(httpSession));
 
         chain.doFilter(request, response);
@@ -48,16 +48,16 @@ public class SessionManagementFilter implements Filter {
         return session.getExpiresAt().isAfter(LocalDateTime.now());
     }
 
-    private void manageSession(HttpSession httpSession, Session session, HttpServletResponse response) {
-        addUserToSession(httpSession, session.getUser());
-        prolongSession(session, response);
+    private void handleValidSession(HttpSession httpSession, Session session, HttpServletResponse response) {
+        setSessionUser(httpSession, session.getUser());
+        extendSession(session, response);
     }
 
-    private void addUserToSession(HttpSession httpSession, User user) {
+    private void setSessionUser(HttpSession httpSession, User user) {
         httpSession.setAttribute(USER_ATTRIBUTE, user);
     }
 
-    private void prolongSession(Session session, HttpServletResponse response) {
+    private void extendSession(Session session, HttpServletResponse response) {
         LocalDateTime expiresAt = LocalDateTime.now().plusMinutes(sessionTtlMinutes);
         session.setExpiresAt(expiresAt);
         Session updatedSession = sessionDao.update(session);
