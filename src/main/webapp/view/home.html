@@ -51,14 +51,14 @@
 
     <div class="card m-2 p-3 d-flex justify-content-between"
          style="width: 24rem"
-         th:each="lw : ${locationWeather}"
-         th:with="w = ${lw.weather()}, location =${lw.location()}">
+         th:each="locationWeather : ${locationWeather}"
+         th:with="weather = ${locationWeather.weather()}, location =${locationWeather.location()}">
 
         <div class="row justify-content-center mb-2">
             <div class="col text-center">
                 <div class="h4 mb-0" th:if="${location}" th:text="${location.getName()}"/>
-                <div class="h4 mb-0" th:text="${w.getCity()}" th:unless="${location}"/>
-                (<span th:if="${w.getState()}" th:text="${w.getState() + ', '}"/><span th:text="${w.getCountryCode()}"/>)
+                <div class="h4 mb-0" th:text="${weather.getCity()}" th:unless="${location}"/>
+                (<span th:if="${weather.getState()}" th:text="${weather.getState() + ', '}"/><span th:text="${weather.getCountryCode()}"/>)
             </div>
 
             <div class="col-auto"
@@ -75,9 +75,9 @@
                       th:unless="${location}"
                       th:action="@{/location}">
                     <input name="search" th:value="${search}" type="hidden"/>
-                    <input name="name" th:value="${w.getCity()}" type="hidden"/>
-                    <input name="latitude" th:value="${w.getLatitude()}" type="hidden"/>
-                    <input name="longitude" th:value="${w.getLongitude()}" type="hidden"/>
+                    <input name="name" th:value="${weather.getCity()}" type="hidden"/>
+                    <input name="latitude" th:value="${weather.getLatitude()}" type="hidden"/>
+                    <input name="longitude" th:value="${weather.getLongitude()}" type="hidden"/>
                     <button class="btn btn-outline-primary" type="submit">
                         <i class="bi bi-plus-lg"></i>
                     </button>
@@ -90,29 +90,29 @@
                 <div class="d-flex flex-wrap justify-content-center align-items-center">
                     <img alt="Weather icon"
                          height="100"
-                         th:src="${w.getIconUrl()}"
+                         th:src="${weather.getIconUrl()}"
                          width="100"/>
                     <div>
-                        <span class="h2" th:text="${w.getTemperature()}"/>
+                        <span class="h2" th:text="${weather.getTemperature()}"/>
                         <span class="mb-3">°C</span>
                     </div>
                 </div>
-                <div th:text="${w.getName()}"></div>
-                <div>(<span th:text="${w.getDescription()}"/>)</div>
+                <div th:text="${weather.getName()}"></div>
+                <div>(<span th:text="${weather.getDescription()}"/>)</div>
             </div>
 
             <div class="col">
-                <div><i class="bi bi-thermometer-half"></i> Feels like: <span th:text="${w.getFeelsLike()}"/>°</div>
-                <div><i class="bi bi-thermometer-low"></i> Min: <span th:text="${w.getMinTemperature()}"/>°</div>
-                <div><i class="bi bi-thermometer-high"></i> Max: <span th:text="${w.getMaxTemperature()}"/>°</div>
-                <div><i class="bi bi-moisture"></i> Humidity: <span th:text="${w.getHumidity()}"/>%</div>
-                <div><i class="bi bi-wind"></i> Wind: <span th:text="${w.getWindSpeed()}"/> m/sec</div>
-                <div><i class="bi bi-eye"></i> Visibility: <span th:text="${w.getVisibility()}"/> km</div>
-                <div th:with="latitude = ${location ? location.getLatitude() : w.getLatitude()}">
+                <div><i class="bi bi-thermometer-half"></i> Feels like: <span th:text="${weather.getFeelsLike()}"/>°</div>
+                <div><i class="bi bi-thermometer-low"></i> Min: <span th:text="${weather.getMinTemperature()}"/>°</div>
+                <div><i class="bi bi-thermometer-high"></i> Max: <span th:text="${weather.getMaxTemperature()}"/>°</div>
+                <div><i class="bi bi-moisture"></i> Humidity: <span th:text="${weather.getHumidity()}"/>%</div>
+                <div><i class="bi bi-wind"></i> Wind: <span th:text="${weather.getWindSpeed()}"/> m/sec</div>
+                <div><i class="bi bi-eye"></i> Visibility: <span th:text="${weather.getVisibility()}"/> km</div>
+                <div th:with="latitude = ${location ? location.getLatitude() : weather.getLatitude()}">
                     <i class="bi bi-geo"></i> Latitude:
                     <span th:text="${latitude.setScale(3, 4)}"/>
                 </div>
-                <div th:with="longitude = ${location ? location.getLongitude() : w.getLongitude()}">
+                <div th:with="longitude = ${location ? location.getLongitude() : weather.getLongitude()}">
                     <i class="bi bi-geo-fill"></i> Longitude:
                     <span th:text="${longitude.setScale(3, 4)}"/>
                 </div>
