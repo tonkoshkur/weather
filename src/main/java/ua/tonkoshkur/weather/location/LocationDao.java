@@ -15,7 +15,7 @@ public class LocationDao extends BaseDao {
     private final EntityManagerFactory entityManagerFactory;
 
     public List<Location> findAllByUserId(int userId) {
-        String sql = "from Location where user.id = :userId";
+        String sql = "from Location where user.id = :userId order by name";
         try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
             return entityManager.createQuery(sql, Location.class)
                     .setParameter("userId", userId)
