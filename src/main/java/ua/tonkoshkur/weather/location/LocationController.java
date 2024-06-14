@@ -13,7 +13,7 @@ import ua.tonkoshkur.weather.user.User;
 
 import java.io.IOException;
 
-@WebServlet(value = {"/location", "/location/*"})
+@WebServlet(value = {"/location", "/location/*"}, name = "LocationController")
 public class LocationController extends BaseServlet {
 
     private static final String USER_VARIABLE = "user";
