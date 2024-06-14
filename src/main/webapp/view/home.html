@@ -15,15 +15,15 @@
 <nav class="navbar navbar-light bg-light justify-content-center">
     <div class="d-flex" th:if="${user}">
         <div th:text="${user.getLogin()}" class="me-4 mt-auto mb-auto"></div>
-        <form action="signout" method="post">
+        <form th:action="@{/auth/signout}" method="post">
             <input class="btn btn-primary"
                    type="submit"
                    value="Sign out">
         </form>
     </div>
     <div class="d-flex gap-2" th:unless="${user}">
-        <a class="btn btn-primary" href="signin">Sign in</a>
-        <a class="btn btn-primary" href="signup">Sign up</a>
+        <a class="btn btn-primary" th:href="@{/auth/signin}">Sign in</a>
+        <a class="btn btn-primary" th:href="@{/auth/signup}">Sign up</a>
     </div>
 </nav>
 

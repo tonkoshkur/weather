@@ -33,6 +33,7 @@ public final class CookieHelper {
         int expiry = getExpiry(session);
         Cookie cookie = new Cookie(SESSION_ID_KEY, session.getId());
         cookie.setMaxAge(expiry);
+        cookie.setPath("/");
         response.addCookie(cookie);
     }
 

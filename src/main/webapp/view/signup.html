@@ -13,12 +13,12 @@
 
 <nav class="navbar navbar-light bg-light justify-content-center gap-2">
     <a class="btn btn-primary" th:href="@{/}">Home</a>
-    <a class="btn btn-primary" href="signin">Sign in</a>
+    <a class="btn btn-primary" th:href="@{/auth/signin}">Sign in</a>
 </nav>
 
 <div class="container">
     <div class="d-flex justify-content-center mt-5">
-        <form action="signup"
+        <form th:action="@{/auth/signup}"
               class="row g-2"
               method="post"
               style="width: 22rem">

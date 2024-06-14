@@ -12,7 +12,7 @@ import ua.tonkoshkur.weather.common.util.CookieHelper;
 
 import java.io.IOException;
 
-@WebServlet("/signout")
+@WebServlet("/auth/signout")
 public class SignOutController extends BaseServlet {
 
     private transient AuthService authService;

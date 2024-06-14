@@ -15,7 +15,7 @@ import ua.tonkoshkur.weather.session.Session;
 
 import java.io.IOException;
 
-@WebServlet("/signin")
+@WebServlet("/auth/signin")
 public class SignInController extends BaseServlet {
 
     private static final String SIGN_IN_PAGE = "signin";

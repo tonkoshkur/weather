@@ -16,7 +16,7 @@ import ua.tonkoshkur.weather.user.UserAlreadyExistsException;
 
 import java.io.IOException;
 
-@WebServlet("/signup")
+@WebServlet("/auth/signup")
 public class SignUpController extends BaseServlet {
 
     private static final String SIGN_UP_PAGE = "signup";
