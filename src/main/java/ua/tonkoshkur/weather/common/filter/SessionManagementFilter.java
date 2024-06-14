@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 
 @WebFilter("/*")
-public class AddSessionUserFilter implements Filter {
+public class SessionManagementFilter implements Filter {
 
     private SessionDao sessionDao;
 
