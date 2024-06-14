@@ -30,7 +30,7 @@ public class Location {
     @Column(precision = 17, scale = 15, nullable = false)
     private BigDecimal latitude;
 
-    @Column(precision = 17, scale = 15, nullable = false)
+    @Column(precision = 18, scale = 15, nullable = false)
     private BigDecimal longitude;
 
     public Location(String name, User user, BigDecimal latitude, BigDecimal longitude) {
