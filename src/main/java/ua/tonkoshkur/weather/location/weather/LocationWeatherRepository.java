@@ -58,7 +58,7 @@ public class LocationWeatherRepository {
     }
 
     private boolean isWeatherMatchingLocation(WeatherDto weather, LocationDto location) {
-        return location.getLatitude().stripTrailingZeros().equals(weather.getLatitude())
-                && location.getLongitude().stripTrailingZeros().equals(weather.getLongitude());
+        return weather.getLatitude().compareTo(location.getLatitude()) == 0
+                && weather.getLongitude().compareTo(location.getLongitude()) == 0;
     }
 }
