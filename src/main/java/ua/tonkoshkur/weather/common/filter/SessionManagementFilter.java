@@ -24,10 +24,11 @@ public class SessionManagementFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        AppProperties appProperties = (AppProperties) filterConfig.getServletContext()
+        ServletContext context = filterConfig.getServletContext();
+        AppProperties appProperties = (AppProperties) context
                 .getAttribute(AppProperties.class.getSimpleName());
         sessionTtlMinutes = appProperties.getSessionTtlMinutes();
-        sessionDao = (SessionDao) filterConfig.getServletContext().getAttribute(SessionDao.class.getSimpleName());
+        sessionDao = (SessionDao) context.getAttribute(SessionDao.class.getSimpleName());
     }
 
     @Override
