@@ -13,7 +13,9 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "Locations", uniqueConstraints = @UniqueConstraint(columnNames={"user_id", "latitude", "longitude"}))
+@Table(name = "Locations",
+        indexes = @Index(name = "index_locations_on_user_id", columnList = "user_id"),
+        uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "latitude", "longitude"}))
 public class Location {
 
     @Id
