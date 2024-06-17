@@ -6,7 +6,7 @@ import ua.tonkoshkur.weather.common.exception.BadRequestException;
 @RequiredArgsConstructor
 public class SignUpRequestValidator {
 
-    private static final String LOGIN_REGEX = "^[a-zA-Z0-9_/-@.]{3,25}$";
+    private static final String LOGIN_REGEX = "^[a-zA-Z0-9_/\\-@.]{3,25}$";
 
     public void validate(SignUpRequest request) throws BadRequestException {
         validateLogin(request.login());
