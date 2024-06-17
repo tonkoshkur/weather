@@ -32,6 +32,7 @@ I aim to deepen understanding of these technologies and expand my knowledge base
 - JUnit 5
 - Mockito
 - AssertJ
+- Awaitility
 - H2
 
 **Frontend:**
