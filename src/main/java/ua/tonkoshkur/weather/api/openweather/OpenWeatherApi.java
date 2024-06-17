@@ -10,7 +10,6 @@ import ua.tonkoshkur.weather.common.util.UrlBuilder;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 public class OpenWeatherApi {
