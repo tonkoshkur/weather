@@ -36,7 +36,7 @@
                value="Search">
     </form>
 </div>
-<div class="text-secondary text-center" th:text="${error}"/>
+<div class="text-secondary text-center" th:text="${error}"></div>
 
 <div class="container d-flex flex-wrap justify-content-center my-4"
      th:fragment="weathercards"
@@ -51,7 +51,8 @@
             <div class="col text-center">
                 <div class="h4 mb-0" th:if="${location}" th:text="${location.getName()}"/>
                 <div class="h4 mb-0" th:text="${weather.getCity()}" th:unless="${location}"/>
-                (<span th:if="${weather.getState()}" th:text="${weather.getState() + ', '}"/><span th:text="${weather.getCountryCode()}"/>)
+                (<span th:if="${weather.getState()}" th:text="${weather.getState() + ', '}"/><span
+                    th:text="${weather.getCountryCode()}"/>)
             </div>
 
             <div class="col-auto"
@@ -95,7 +96,8 @@
             </div>
 
             <div class="col">
-                <div><i class="bi bi-thermometer-half"></i> Feels like: <span th:text="${weather.getFeelsLike()}"/>°</div>
+                <div><i class="bi bi-thermometer-half"></i> Feels like: <span th:text="${weather.getFeelsLike()}"/>°
+                </div>
                 <div><i class="bi bi-thermometer-low"></i> Min: <span th:text="${weather.getMinTemperature()}"/>°</div>
                 <div><i class="bi bi-thermometer-high"></i> Max: <span th:text="${weather.getMaxTemperature()}"/>°</div>
                 <div><i class="bi bi-moisture"></i> Humidity: <span th:text="${weather.getHumidity()}"/>%</div>
