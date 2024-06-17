@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
@@ -32,6 +31,7 @@ class LocationWeatherRepositoryTest {
     private static final int USER_ID = 10;
     private static WeatherDto weatherDto;
     private static Location location;
+    private static LocationWeatherDto locationWeatherDto;
 
     @InjectMocks
     private LocationWeatherRepository locationWeatherRepository;
@@ -55,6 +55,13 @@ class LocationWeatherRepositoryTest {
         user.setId(USER_ID);
         location = new Location(CITY, user, latitude, longitude);
         location.setId(1);
+        LocationDto locationDto = new LocationDto();
+        locationDto.setId(1);
+        locationDto.setName(CITY);
+        locationDto.setUserId(user.getId());
+        locationDto.setLatitude(latitude);
+        locationDto.setLongitude(longitude);
+        locationWeatherDto = new LocationWeatherDto(locationDto, weatherDto);
     }
 
     @Test
@@ -80,11 +87,7 @@ class LocationWeatherRepositoryTest {
 
         assertThat(locationWeather)
                 .singleElement()
-                .satisfies(lw -> {
-                    assertEquals(weatherDto, lw.weather());
-                    assertThat(lw.location())
-                            .satisfies(this::assertThatLocationDtoFieldsEqualsLocation);
-                });
+                .isEqualTo(locationWeatherDto);
     }
 
     @Test
@@ -96,17 +99,6 @@ class LocationWeatherRepositoryTest {
 
         assertThat(locationWeather)
                 .singleElement()
-                .satisfies(lw -> {
-                    assertEquals(weatherDto, lw.weather());
-                    assertThat(lw.location())
-                            .satisfies(this::assertThatLocationDtoFieldsEqualsLocation);
-                });
-    }
-
-    private void assertThatLocationDtoFieldsEqualsLocation(LocationDto locationDto) {
-        assertEquals(location.getName(), locationDto.getName());
-        assertEquals(location.getUser().getId(), locationDto.getUserId());
-        assertEquals(location.getLatitude(), locationDto.getLatitude());
-        assertEquals(location.getLongitude(), locationDto.getLongitude());
+                .isEqualTo(locationWeatherDto);
     }
 }
