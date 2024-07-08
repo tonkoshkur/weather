@@ -13,7 +13,7 @@ import ua.tonkoshkur.weather.user.User;
 import ua.tonkoshkur.weather.user.UserAlreadyExistsException;
 import ua.tonkoshkur.weather.user.UserDao;
 
-class AuthServiceTest {
+class AuthServiceIntegrationTest {
 
     private static final String USER_LOGIN = "login";
     private static final String USER_PASSWORD = "password";
