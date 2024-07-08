@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 import static org.awaitility.Awaitility.await;
 
-class ExpiredSessionCleanupSchedulerTest {
+class ExpiredSessionCleanupSchedulerIntegrationTest {
 
     private static long sessionTtlMinutes;
     private static long expiredSessionsCleanupMinutes;
